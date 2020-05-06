@@ -18,4 +18,9 @@ ConsultantSchema.methods.hashPassword = async (password) =>  bcrypt.hash(passwor
 
 const ConsultantModel = mongoose.model(ConsultantSchema);
 
+const insertUser = async () => {
+
+}
+
+
 module.exports = ConsultantModel;
