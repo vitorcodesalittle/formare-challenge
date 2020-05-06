@@ -13,8 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
 // -- ROUTES --
-app.use('user', userRoutes);
-app.use('consultant', consultantRoutes);
-app.use('message', messageRoutes);
+app.use('users', userRoutes);
+app.use('consultants', consultantRoutes);
+app.use('messages', messageRoutes);
 
 app.listen(PORT, () => console.log(`Ouvindo na porta ${PORT}`))
