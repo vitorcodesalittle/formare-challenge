@@ -4,6 +4,8 @@ const userRoutes = require('./routes/user');
 const consultantRoutes = require('./routes/consultant');
 const messageRoutes = require('./routes/message');
 const mongoose = require('mongoose');
+const http = require('http');
+const socketIo = require('socket.io');
 
 require('dotenv').config();
 
@@ -29,4 +31,22 @@ app.use('/users', userRoutes);
 app.use('/consultants', consultantRoutes);
 app.use('/messages', messageRoutes);
 
-app.listen(PORT, () => console.log(`Ouvindo na porta ${PORT}`))
+const server = http.createServer(app);
+
+const io = socketIo(server);
+
+io.on('connection', socket => {
+  console.log('New client connected');
+  // socket.broadcast.emit('message', {
+  //   content: "Estou conectado",
+  //   author: 1
+  // });
+  socket.on('message', (data) => {
+    console.log('Some user emited a message: ', data);
+    socket.broadcast.emit('message', data);
+  })
+  socket.on("disconnect", () => {
+  })
+})
+
+server.listen(PORT, () => console.log(`Ouvindo na porta ${PORT}`))
