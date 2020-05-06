@@ -19,6 +19,7 @@ router.get('/', getMessagesAction);
  * @apiParam { string } body.content 
  * @apiParam { string } body.userId
  * @apiParam { date } body.sendDate -- para caso eu decida usar a data de envio (quando usuário clickou em enviar) ao invés da data de inserção no db
+ * @apiResponse { Message } data.message
  */
 router.post('/', createMessageAction);
 
