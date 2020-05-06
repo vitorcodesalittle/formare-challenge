@@ -6,7 +6,7 @@ exports.createUserAction = [
     insertUser({ username })
       .then( user => {
         console.log('user: ', user);
-        return res.status(200).json({ success: true, user })
+        return res.status(200).json({ success: true, data: { user } })
       })
       .catch(err => {
         console.log('Erro ao inserir usuário', err);
@@ -17,10 +17,11 @@ exports.createUserAction = [
 
 exports.getUsersAction = [
   (req, res, next) => {
+    console.log('At getUsersAction')
     getUsers()
       .then(users => {
         console.log('users: ', users);
-        res.status(200).json({ users });
+        res.status(200).json({ success: true, data: { users } });
       })
       .catch(err => {
         console.log('Erro ao pegar usuários: ', err);

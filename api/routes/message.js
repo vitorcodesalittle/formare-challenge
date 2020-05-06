@@ -4,12 +4,13 @@ const { getMessagesAction, createMessageAction, deleteMessageAction } = require(
 /**
  * retorná as mensagens baseado na querystring (query). se nenhuma query for enviada, retorna todas as mensagens da mais nova para mais antiga
  * A query é um json em forma de string, que deve ser "parsed"
- * @apiParam { string } query.username
+ * @apiParam { string } query.userId
  * @apiParam { date } query.beginDate
  * @apiParam { date } query.endDate
  * @apiParam { 'older' | 'newer' } query.first
  * @apiParam { number } query.skip
  * @apiParam { number } query.offset
+ * @apiResponse { Message[] } data.messages
  */
 router.get('/', getMessagesAction);
 

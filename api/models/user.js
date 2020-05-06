@@ -10,8 +10,6 @@ const UserSchema = new mongoose.Schema({
 
 const UserModel = mongoose.model('User', UserSchema);
 
-module.exports = UserModel;
-
 exports.insertUser = ({ username }) => new Promise((resolve, reject) => {
   let user = new UserModel({ username });
   user.save()
