@@ -37,3 +37,19 @@ exports.getUsers = (query={}, skip = 0, limit = 117) => new Promise((resolve, re
       reject(err);
     })
 })
+
+exports.updateUserStatus = (id, online) => new Promise( async (resolve, reject) => {
+  let user = await UserModel.findById(id);
+  if (!user) {
+    return reject('Não achamos usuário com id ' + id);
+  }
+  user.online = online;
+  UserModel.findOneAndUpdate({ _id: user._id }, user)
+    .then(( result ) => {
+      console.log('result from update', result);
+      resolve(true);
+    })
+    .catch(err => {
+      reject(err);
+    })
+})
