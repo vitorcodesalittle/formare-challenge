@@ -9,7 +9,7 @@ const { getMessagesAction, createMessageAction, deleteMessageAction } = require(
  * @apiParam { date } query.endDate
  * @apiParam { 'older' | 'newer' } query.first
  * @apiParam { number } query.skip
- * @apiParam { number } query.offset
+ * @apiParam { number } query.limit
  * @apiResponse { Message[] } data.messages
  */
 router.get('/', getMessagesAction);

@@ -18,10 +18,20 @@ const MessageSchema = mongoose.Schema({
 
 const MessageModel = mongoose.model('Message', MessageSchema);
 
-exports.getMessages = (query = {}, skip = 0, limit = 30) => new Promise((resolve, reject) => {
+exports.getMessages = (query = {}, skip = 0, limit = 30, first='newer') => new Promise((resolve, reject) => {
+
+  let sortArg = 1;
+
+  if (first === 'older') {
+    sortArg = -1;
+  }
+
   MessageModel.find(query)
     .skip(skip)
     .limit(limit)
+    .sort({ 
+      createdAt: sortArg
+    })
     .then( result => {
       resolve(result);
     })

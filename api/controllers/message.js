@@ -3,11 +3,16 @@ const { insertMessage, getMessages, deleteMessage } = require('../models/message
 
 exports.getMessagesAction = [
   (req, res, next) => {
-    let { query, limit, skip } = req.query;
-    if (query) {
-      query = JSON.parse(query);
-    }
-    getMessages(query, skip, limit)
+    let { limit, skip, userId, beginDate, endDate, first } = req.query;
+    
+    let query = {}
+    let createdAtQuery = {}
+    if (userId) query.author = userId;
+    if (beginDate) createdAtQuery = { $gte: new Date(beginDate) }
+    if (endDate) createdAtQuery = { $lte: new Date(endDate) }
+    if (Object.keys(createdAtQuery).length > 0) query.createdAt = createdAtQuery;
+    
+    getMessages(query, skip, limit, first)
       .then(messages => {
         res.status(200).json({ success: true, data: { messages } })
       })
