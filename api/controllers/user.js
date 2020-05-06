@@ -5,7 +5,6 @@ exports.createUserAction = [
     const { username } = req.body;
     insertUser({ username })
       .then( user => {
-        console.log('user: ', user);
         return res.status(200).json({ success: true, data: { user } })
       })
       .catch(err => {
@@ -27,7 +26,6 @@ exports.getUsersAction = [
     }
     getUsers(query, skip, limit)
       .then(users => {
-        console.log('users: ', users);
         res.status(200).json({ success: true, data: { users } });
       })
       .catch(err => {
