@@ -5,6 +5,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     min: 5
+  },
+  online: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 })
 
@@ -21,8 +26,10 @@ exports.insertUser = ({ username }) => new Promise((resolve, reject) => {
     })
 })
 
-exports.getUsers = () => new Promise((resolve, reject) => {
-  UserModel.find({})
+exports.getUsers = (query={}, skip = 0, limit = 117) => new Promise((resolve, reject) => {
+  UserModel.find(query)
+    .skip(skip)
+    .limit(limit)
     .then(users => {
       resolve(users);
     })

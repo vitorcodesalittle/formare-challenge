@@ -17,8 +17,15 @@ exports.createUserAction = [
 
 exports.getUsersAction = [
   (req, res, next) => {
-    console.log('At getUsersAction')
-    getUsers()
+    const { userId, onlyOnline, skip, limit } = req.query;
+    let query = {};
+    if (userId) {
+      query._id = userId;
+    }
+    if (onlyOnline) {
+      query.online = true;
+    }
+    getUsers(query, skip, limit)
       .then(users => {
         console.log('users: ', users);
         res.status(200).json({ success: true, data: { users } });
