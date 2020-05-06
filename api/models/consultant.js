@@ -15,7 +15,7 @@ const ConsultantSchema = new mongoose.Schema({
 })
 
  
-ConsultantSchema.methods.validPassword = async (candidate, hash) => bcrypt.compare(candidate, hash)
+exports.validPassword = async (candidate, hash) => bcrypt.compare(candidate, hash)
 ConsultantSchema.methods.hashPassword = async (password) => bcrypt.hash(password, 10);
 
 const ConsultantModel = mongoose.model('Consultant', ConsultantSchema);
@@ -27,7 +27,6 @@ exports.insertConsultant = ({ username, password }) => new Promise( async (resol
   try {
     consultant.password = await consultant.hashPassword(password);
   } catch(err) {
-    console.log('Erro ao fazer hash da senha.')
     reject(err)
     return;
   }
@@ -42,7 +41,7 @@ exports.insertConsultant = ({ username, password }) => new Promise( async (resol
 
 exports.getConsultant = (username) => new Promise((resolve, reject) => {
   ConsultantModel.find({ username })
-    .then(data => resolve(data))
+    .then(data => data.length > 0 ? resolve(data[0]) : null)
     .catch(err => reject(err))
 })
 
