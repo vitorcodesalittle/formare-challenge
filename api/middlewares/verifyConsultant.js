@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
  * Verifica se a requisição vem de um consultor.
  */
 const verifyConsultant = (req, res, next) => {
-  const token = req.headers('Authorization');
+  const token = req.headers['authorization'];
+  console.log('headers da req: ', req.headers);
   if (!token) {
     return res.status(401).json({ message: "É preciso ser um consultor para realizar essa ação", success: false })
   }

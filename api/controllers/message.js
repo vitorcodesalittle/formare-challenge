@@ -1,5 +1,5 @@
 const verifyConsultant = require('../middlewares/verifyConsultant');
-const { insertMessage, getMessages } = require('../models/message');
+const { insertMessage, getMessages, deleteMessage } = require('../models/message');
 
 exports.getMessagesAction = [
   (req, res, next) => {
@@ -27,6 +27,19 @@ exports.createMessageAction = [
 exports.deleteMessageAction = [
   verifyConsultant, // apenas consultores podem deletar uma mensagem
   (req, res, next) => {
-
+    const messageId = req.params.message_id;
+    deleteMessage(messageId)
+      .then(result => {
+        console.log('Resultado to delete da mensagem: ', result);
+        if (result.deletedCount === 1)
+          res.status(200).json({ success: true })
+        else {
+          res.status(400).json({ success: false, message: "Não achamos mensagem com _id " + messageId + " para deletar."})
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({ success: false, message: "Não foi possível deletar a mensagem."})
+      })
   }
 ]
