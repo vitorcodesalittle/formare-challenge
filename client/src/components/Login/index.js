@@ -14,10 +14,10 @@ const Login = function(props) {
   const [ consultantPassword, setConsultantPassword ] = useState('');
   const [ userHasSession, setUserHasSession ] = useState(false);
   const [ consultantHasSession, setConsultantHasSession ] = useState(false);
+  const userId = getUserIdFromCookie();
+  const consultantId = getConsultantIdFromCookie();
 
   useEffect(() => {
-    const userId = getUserIdFromCookie();
-    const consultantId = getConsultantIdFromCookie();
     if (userId && !props.me.id && !props.me.isLoading) {
       setUserHasSession(true);
       props.getUser(userId);
@@ -27,13 +27,15 @@ const Login = function(props) {
       // get Consultant
     }
     return () => {}
-  }, [ props.me.isLoading ])
+  }, [ props.me.isLoading, userId])
 
   const handleLogin = () => {
+    console.log('LOGIN');
     if (loginPage === 'user') {
       if (userHasSession || props.me.id) {
         props.history.push('/chat');
       } else {
+        console.log('Signing up new user');
         props.signUpUser(username)
       }
     } else {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
 import { connect } from 'react-redux';
-import { getOldMessages, getUser, pushMessageToEnd } from '../../actions'
+import { getOldMessages, getUser, pushMessageToEnd, getOnlineUsers, pushUser, removeUser } from '../../actions'
 import { getUserIdFromCookie } from "../../Cookie";
 
 const ENDPOINT = "http://127.0.0.1:8080";
@@ -19,13 +19,34 @@ function ChatView(props) {
     if (!props.me.id && !props.me.isLoading) {
       props.getUser(userId)
     }
-    if (!socket) {
-      socket = socketIOClient(ENDPOINT);
+    if (!socket && props.me.id) {
+      socket = socketIOClient(ENDPOINT, {
+        query: {
+          userId: props.me.id
+        }
+      });
+      props.getOnlineUsers();
     }
-    socket.on('message', data => {
-      props.pushMessageToEnd(data);
-    });
+    if (socket) {
+      socket.on('message', data => {
+        props.pushMessageToEnd(data);
+      });
+      socket.on('new-user', data => {
+        console.log('NEW USER EVENT: ', data);
+        props.pushUser(data);
+      })
+      socket.on('down-user', data => {
+        console.log('DOWN USER EVENT', data)
+        props.removeUser(data);
+      })
+    }
+    if (props.me.id) {
+      socket.emit('hello', { userId: props.me.id })
+    }
     return () => {
+      if (socket) {
+        socket.removeAllListeners(); 
+      }
     }
   }, [ props.me ])
 
@@ -55,6 +76,11 @@ function ChatView(props) {
       <label>Username</label> 
       <p>{props.me.username}</p>
 
+      <div>
+        <p>Usuários Online</p>
+        { props.users.map((u, idx) => u && <p key={idx}>{u.username}</p>)}
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column'}}>
         <h3>Mensagens</h3>
         { props.chatLoading && <p>Carregando mensagens antigas...</p> }
@@ -80,7 +106,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getOldMessages: (skip, limit) => dispatch(getOldMessages(skip, limit)),
   getUser: () => dispatch(getUser()),
-  pushMessageToEnd: (message) => dispatch(pushMessageToEnd(message))
+  pushMessageToEnd: (message) => dispatch(pushMessageToEnd(message)),
+  getOnlineUsers: () => dispatch(getOnlineUsers()),
+  pushUser: user => dispatch(pushUser(user)),
+  removeUser: user => dispatch(removeUser(user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatView);

@@ -1,6 +1,6 @@
 import * as API from '../api';
 import * as actions from './types';
-import { setUserIdInCookie } from '../Cookie';
+import { setUserIdInCookie, removeUserIdFromCookie } from '../Cookie';
 
 export const signUpUser = (username) => 
   dispatch => {
@@ -29,13 +29,16 @@ export const getUser = (userId) =>
           dispatch({ type: actions.GET_USER_SUCCESS, payload: res.data });
         } else if (res.success && res.data.users.length === 0) {
           dispatch({ type: actions.GET_USER_SUCCESS, error: 'Nenhum usuário com id ' + userId });
+          removeUserIdFromCookie();
         } else {;
           dispatch({ type: actions.GET_USER_SUCCESS, error: res.message });
+          removeUserIdFromCookie();
         }
       })
       .catch(err => {
         console.log(err);
         dispatch({ type: actions.GET_USER_FAILED })
+        removeUserIdFromCookie();
       })
   }
 export const userLogout = () => 
@@ -64,4 +67,30 @@ export const getOldMessages = (skip, limit) =>
 export const pushMessageToEnd = (message) =>
   dispatch => {
     dispatch({ type: actions.PUSH_MESSAGE_TO_END, payload: { message }})
+  }
+
+export const getOnlineUsers = () => 
+  dispatch => {
+    dispatch({ type: actions.GET_ONLINE_USERS_STARTED })
+    API.getUsers(null, true)
+      .then(response => {
+        console.log(response);
+        if (response.success) {
+          dispatch({ type: actions.GET_ONLINE_USERS_SUCCESS, payload: response.data })
+        } else {
+          dispatch({ type: actions.GET_ONLINE_USERS_FAILED, error: response.message })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.GET_ONLINE_USERS_FAILED, error: 'Erro no servidor' })
+      })
+  }
+
+export const pushUser = (user) => 
+  dispatch => {
+    dispatch({ type: actions.PUSH_USER, payload: { user } })
+  }
+export const removeUser = (user) => 
+  dispatch => {
+    dispatch({ type: actions.REMOVE_USER, payload: { user }})
   }

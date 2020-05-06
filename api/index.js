@@ -8,6 +8,7 @@ const http = require('http');
 const socketIo = require('socket.io');
 
 const { insertMessage } = require('./models/message');
+const { updateUserStatus } = require('./models/user');
 
 require('dotenv').config();
 
@@ -17,7 +18,7 @@ const app = express();
 
 mongoose.connect(process.env.MONGO_DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(connection => {
-    console.log('Connected to mongo');
+    mongoose.connection.dropDatabase();
   })
   .catch(err => {
     console.log('Erro ao conectar com mongo', err);
@@ -37,7 +38,11 @@ const server = http.createServer(app);
 
 const io = socketIo(server);
 
-io.on('connection', socket => {
+io.on('connection', async socket => {
+
+  let userIdFromSocket = socket.handshake.query.userId;
+  let user = await updateUserStatus(userIdFromSocket, true);
+  socket.broadcast.emit('new-user', user)
 
   socket.on('message', (data) => {
     insertMessage(data)
@@ -48,7 +53,10 @@ io.on('connection', socket => {
         console.log('Erro ao inserir mensagem');
       })
   })
-  socket.on("disconnect", () => {
+
+  socket.on("disconnect", async () => {
+    await updateUserStatus(userIdFromSocket, false);
+    io.emit('down-user', user)
   })
 })
 

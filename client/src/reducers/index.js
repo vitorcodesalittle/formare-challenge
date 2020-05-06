@@ -9,7 +9,12 @@ import {
   USER_LOGOUT,
   GET_MESSAGES_STARTED,
   GET_MESSAGES_FAILED,
-  PUSH_MESSAGE_TO_END
+  PUSH_MESSAGE_TO_END,
+  GET_ONLINE_USERS_STARTED,
+  GET_ONLINE_USERS_SUCCESS,
+  GET_ONLINE_USERS_FAILED,
+  PUSH_USER,
+  REMOVE_USER
  } from "../actions/types";
 
 const initialState = {
@@ -115,6 +120,37 @@ const reducer = function(state = initialState, action) {
       return {
         ...state,
         messages: newMessages
+      }
+    case GET_ONLINE_USERS_STARTED:
+      return {
+        ...state,
+        usersLoading: true
+      }
+    case GET_ONLINE_USERS_SUCCESS:
+      return {
+        ...state,
+        users: payload.users
+      }
+    case GET_ONLINE_USERS_FAILED: 
+      return {
+        ...state,
+        error
+      }
+    case PUSH_USER:
+      return {
+        ...state,
+        users: [...state.users, payload.user]
+      }
+    case REMOVE_USER:
+      let newUsers;
+      if (!payload.user || !payload.user._id) {
+        newUsers = state.users
+      } else {
+        newUsers = state.users.filter(u => u._id !== payload.user._id);
+      }
+      return {
+        ...state,
+        users: newUsers
       }
     default:
       return state
