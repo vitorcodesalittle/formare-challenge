@@ -11,10 +11,15 @@ exports.getMessagesAction = [
     if (beginDate) createdAtQuery = { $gte: new Date(beginDate) }
     if (endDate) createdAtQuery = { $lte: new Date(endDate) }
     if (Object.keys(createdAtQuery).length > 0) query.createdAt = createdAtQuery;
-    
+    if (limit) limit = parseInt(limit)
+    if (skip) skip = parseInt(skip)
     getMessages(query, skip, limit, first)
       .then(messages => {
         res.status(200).json({ success: true, data: { messages } })
+      })
+      .catch(err => {
+        console.log('Erro ao pegar mensagens: ', err);
+        res.status(500).json({ success: false, message: 'Erro ao pegar mensagens.'})
       })
   }
 ]

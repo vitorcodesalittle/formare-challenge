@@ -6,11 +6,15 @@ import {
   GET_MESSAGES_SUCCESS,
   GET_USER_FAILED,
   GET_USER_SUCCESS,
-  USER_LOGOUT
+  USER_LOGOUT,
+  GET_MESSAGES_STARTED,
+  GET_MESSAGES_FAILED,
+  PUSH_MESSAGE_TO_END
  } from "../actions/types";
 
 const initialState = {
   me: {
+    isLoading: false
     // id: '',
     // username: ''
   },
@@ -27,6 +31,7 @@ const initialState = {
     //   createdAt: ''
     // }
   ],
+  chatLoading: false,
   error: null
 }
 
@@ -80,6 +85,37 @@ const reducer = function(state = initialState, action) {
         }
       }
     case GET_USER_FAILED:
+      return {
+        ...state,
+        error,
+        me: {
+          isLoading: false
+        }
+      }
+    case GET_MESSAGES_STARTED:
+      return {
+        ...state,
+        chatLoading: true
+      }
+    case GET_MESSAGES_SUCCESS:
+      let messages = [ ...action.payload.messages, ...state.messages ];
+      return {
+        ...state,
+        messages,
+        chatLoading: false
+      }
+    case GET_MESSAGES_FAILED:
+      return {
+        ...state,
+        error,
+        chatLoading: false
+      }
+    case PUSH_MESSAGE_TO_END:
+      let newMessages = [ ...state.messages, payload.message ]
+      return {
+        ...state,
+        messages: newMessages
+      }
     default:
       return state
   }

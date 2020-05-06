@@ -1,55 +1,65 @@
 import React, { useState, useEffect } from "react";
 import socketIOClient from "socket.io-client";
+import { connect } from 'react-redux';
+import { getOldMessages, getUser, pushMessageToEnd } from '../../actions'
+import { getUserIdFromCookie } from "../../Cookie";
 
 const ENDPOINT = "http://127.0.0.1:8080";
 let socket = null;
-function ChatView() {
-  
-  const [ messages, setMessages ] = useState([]);
+function ChatView(props) {
   const [ content, setContent ] = useState('');
-  const [ username, setUsername ] = useState('');
 
-  const handleNewMessage = (message) => {
-    console.log('new message: ', message);
-    let newMessages = [ ...messages ];
-    newMessages.push(message);
-    setMessages(newMessages);
-  }
   
   useEffect(() => {
+    const userId = getUserIdFromCookie();
+    if (!userId) {
+      props.history.push('/');
+      return;
+    }
+    if (!props.me.id && !props.me.isLoading) {
+      props.getUser(userId)
+    }
     if (!socket) {
       socket = socketIOClient(ENDPOINT);
     }
     socket.on('message', data => {
-      handleNewMessage(data);
+      props.pushMessageToEnd(data);
     });
     return () => {
     }
-  }, [ messages ])
+  }, [ props.me ])
+
+  const loadOldMessages = () => {
+    props.getOldMessages();
+  }
   
   const emitMessage = () => {
     if (!socket) {
       console.log('Não há socket');
       return false;
     }
-    socket.emit('message', {
+    let msg = {
       content,
-      author: username
-    })
-    handleNewMessage({ content, author: 'me' });
+      author: props.me.id
+    }
+    socket.emit('message', msg)
+    // mandar mensagem
     setContent('');
+    props.pushMessageToEnd(msg);
   }
 
   return (
     <div className="App" style={{ backgroundColor: 'gray'}}>
 
       <h1> Hello World! </h1>
-      <label>Username</label>
-      <input onChange={e => setUsername(e.target.value)} value={username}></input>
+      <label>Username</label> 
+      <p>{props.me.username}</p>
 
       <div style={{ display: 'flex', flexDirection: 'column'}}>
         <h3>Mensagens</h3>
-        { messages.map((msg, idx) => <p key={idx}>{msg.author} - { msg.content}</p>)}
+        { props.chatLoading && <p>Carregando mensagens antigas...</p> }
+        { !props.chatLoading && <button onClick={loadOldMessages}>Carregar mensagens antigas</button>}
+        { props.messages.map((msg, idx) => <p key={idx}>{msg.author} - { msg.content}</p>)}
       </div>
       <div style={{ }}>
         <label>Mensagem</label>
@@ -60,4 +70,17 @@ function ChatView() {
   );
 }
 
-export default ChatView;
+const mapStateToProps = state => ({
+  messages: state.messages,
+  chatLoading: state.chatLoading,
+  me: state.me,
+  users: state.users
+})
+
+const mapDispatchToProps = dispatch => ({
+  getOldMessages: (skip, limit) => dispatch(getOldMessages(skip, limit)),
+  getUser: () => dispatch(getUser()),
+  pushMessageToEnd: (message) => dispatch(pushMessageToEnd(message))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatView);

@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
 
+const { insertMessage } = require('./models/message');
+
 require('dotenv').config();
 
 const PORT = process.env.port || 8080;
@@ -36,14 +38,15 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 io.on('connection', socket => {
-  console.log('New client connected');
-  // socket.broadcast.emit('message', {
-  //   content: "Estou conectado",
-  //   author: 1
-  // });
+
   socket.on('message', (data) => {
-    console.log('Some user emited a message: ', data);
-    socket.broadcast.emit('message', data);
+    insertMessage(data)
+      .then((message) => {
+        socket.broadcast.emit('message', message);
+      })
+      .catch(err => {
+        console.log('Erro ao inserir mensagem');
+      })
   })
   socket.on("disconnect", () => {
   })

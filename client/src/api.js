@@ -31,6 +31,13 @@ export const getMessages = async (skip = 0, limit = 50) => {
     method: 'GET',
   })
   .then(res => res.json())
+  .then( res => {
+    return res;
+  })
+  .catch(err => {
+    console.log('Erro ao pegar mensagens: ', err);
+    throw err;
+  })
 }
 
 export const sendMessage = async (content, authorId) => {
@@ -41,6 +48,7 @@ export const sendMessage = async (content, authorId) => {
       userId: authorId
     }
   })
+  .then(res => res.json())
 }
 
 

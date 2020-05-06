@@ -42,3 +42,26 @@ export const userLogout = () =>
   dispatch => {
     dispatch({ type: actions.USER_LOGOUT })
   }
+
+export const getOldMessages = (skip, limit) => 
+  dispatch => {
+    dispatch({ type: actions.GET_MESSAGES_STARTED })
+    API.getMessages(skip, limit)
+      .then(res => {
+        console.log(res);
+        if (res.success) {
+          dispatch({ type: actions.GET_MESSAGES_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.GET_MESSAGES_FAILED, error: res.message })
+        }
+      })
+      .catch(err => {
+        console.log('Erro inesperado: ', err);
+        dispatch({ type: actions.GET_MESSAGES_FAILED, error: 'Erro no servidor' })
+      })
+  }
+
+export const pushMessageToEnd = (message) =>
+  dispatch => {
+    dispatch({ type: actions.PUSH_MESSAGE_TO_END, payload: { message }})
+  }
