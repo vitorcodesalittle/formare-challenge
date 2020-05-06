@@ -1,10 +1,10 @@
-export const createConsultant = [
+exports.createConsultantAction = [
   (req, res, next) => {
     
   }
 ]
 
-export const loginAction = [
+exports.loginAction = [
   (req, res, next) => {
 
   }

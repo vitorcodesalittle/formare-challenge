@@ -12,10 +12,23 @@ const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;
 
-const insertUser = async () => {
+exports.insertUser = ({ username }) => new Promise((resolve, reject) => {
+  let user = new UserModel({ username });
+  user.save()
+    .then(result => {
+      resolve(result);
+    })
+    .catch(err => {
+      reject(err)
+    })
+})
 
-}
-
-const getUsers = async () => {
-  
-}
+exports.getUsers = () => new Promise((resolve, reject) => {
+  UserModel.find({})
+    .then(users => {
+      resolve(users);
+    })
+    .catch(err => {
+      reject(err);
+    })
+})

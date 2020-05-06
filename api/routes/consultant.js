@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { createConsultantAction } = require('../controllers/consultant');
+const { createConsultantAction, loginAction } = require('../controllers/consultant');
 
 /**
  * Cria um consultant
@@ -11,4 +11,4 @@ router.post('/', createConsultantAction);
 
 router.post('/login', loginAction);
 
-module.exports = Router;
+module.exports = router;

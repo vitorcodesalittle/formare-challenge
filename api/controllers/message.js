@@ -1,18 +1,18 @@
 const verifyConsultant = require('../middlewares/verifyConsultant');
 
-export const getMessagesAction = [
+exports.getMessagesAction = [
   (req, res, next) => {
 
   }
 ]
 
-export const createMessageAction = [
+exports.createMessageAction = [
   (req, res, next) => {
 
   }
 ]
 
-export const deleteMessageAction = [
+exports.deleteMessageAction = [
   verifyConsultant, // apenas consultores podem deletar uma mensagem
   (req, res, next) => {
 

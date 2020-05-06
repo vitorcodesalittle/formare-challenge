@@ -18,16 +18,29 @@ const MessageSchema = mongoose.Schema({
 
 const MessageModel = mongoose.model('Message', MessageSchema);
 
-export const getMessages = () => new Promise((resolve, reject) => {
-
+export const getMessages = (query = {}, skip = 0, limit = 30) => new Promise((resolve, reject) => {
+  MessageModel.find(query)
+    .skip(skip)
+    .limit(limit)
+    .then( result => {
+      resolve(result);
+    })
+    .catch(err => {
+      reject(err);
+    })
 })
 
-export const createMessage = () => new Promise((resolve, reject) => {
-
+exports.createMessage = ({ content, author }) => new Promise((resolve, reject) => {
+  let message = new MessageModel({ content, author });
+  message.save()
+    .then(result => resolve(result))
+    .catch(err => reject(err));
 })
 
-export const deleteMessage = () => new Promise((resolve, reject) => {
-
+exports.deleteMessage = (messageId) => new Promise((resolve, reject) => {
+  MessageModel.deleteOne({ _id: messageId })
+    .then(result => resolve(result))
+    .catch(err => reject(err))
 })
 
 

@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const { createUserAction, getUsers } = require('../controllers/user');
+const { createUserAction, getUsersAction } = require('../controllers/user');
 /**
  * Simplesmente retorna todos os usuários
  */
-router.get('/', getUsers);
+router.get('/', getUsersAction);
 
 /**
  * Cria um usuário
@@ -12,4 +12,4 @@ router.get('/', getUsers);
  */
 router.post('/', createUserAction);
 
-module.exports = Router;
+module.exports = router;

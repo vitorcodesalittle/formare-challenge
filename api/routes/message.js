@@ -26,4 +26,4 @@ router.post('/', createMessageAction);
  */
 router.delete('/:message_id', deleteMessageAction)
 
-module.exports = Router;
+module.exports = router;
