@@ -3,3 +3,9 @@ export const createConsultant = [
     
   }
 ]
+
+export const loginActoin = [
+  (req, res, next) => {
+    
+  }
+]

@@ -8,4 +8,7 @@ const { createConsultantAction } = require('../controllers/consultant');
  * @apiResponse { string } data.consultant._id
  */
 router.post('/', createConsultantAction);
+
+router.post('/login', loginAction);
+
 module.exports = Router;
