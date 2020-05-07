@@ -65,7 +65,7 @@ export const sendMessage = async (content, authorId) => {
 
 
 export const signUpConsultant = async ( username, password ) => {
-  return fetch('/consultant', {
+  return fetch('/consultants', {
     method: "POST",
     body: JSON.stringify({
       username,
@@ -76,10 +76,13 @@ export const signUpConsultant = async ( username, password ) => {
     }
   })
   .then(res => res.json())
+  .catch(err => {
+    throw err;
+  })
 }
 
-export const loginConsultant = async (username, passoword) => {
-  return fetch('/consultant/login', {
+export const loginConsultant = async (username, password) => {
+  return fetch('/consultants/login', {
     method: 'POST',
     body: JSON.stringify({
       username,
@@ -90,6 +93,9 @@ export const loginConsultant = async (username, passoword) => {
     }
   })
   .then(res => res.json())
+  .catch(err => {
+    throw err
+  })
 }
 
 export const deleteMessage = async (messageId) => {
@@ -104,4 +110,7 @@ export const deleteMessage = async (messageId) => {
     }  
   })
   .then(res => res.json()) 
+  .catch(err => {
+    throw err;
+  })
 }  

@@ -27,7 +27,7 @@ const Login = function(props) {
       // get Consultant
     }
     return () => {}
-  }, [ props.me.isLoading, userId])
+  }, [ props.me.isLoading, userId, consultantId, props.consultantMe.authLoading ])
 
   const handleLogin = () => {
     console.log('LOGIN');
@@ -40,6 +40,12 @@ const Login = function(props) {
       }
     } else {
       // login as consultant
+      if (consultantHasSession || props.consultantMe.id) {
+        props.history.push('/consultant')
+      } else {
+        console.log('Signin up new consultant');
+        props.signUpConsultant(consultantUsername, consultantPassword);
+      }
 
     }
   }
@@ -110,7 +116,8 @@ const mapStateToProps = state => ({
   me: state.me,
   consultantMe: {
     username: state.consultantApp.username,
-    id: state.consultantApp.id
+    id: state.consultantApp.id,
+    authLoading: state.consultantApp.authLoading
   }
 })
 
