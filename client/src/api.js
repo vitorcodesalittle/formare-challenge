@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import { getConsultantTokenFromCookie } from './Cookie';
 
 export const getUsers = async (userId, onlyOnline) => {
 
@@ -7,7 +8,10 @@ export const getUsers = async (userId, onlyOnline) => {
   if (onlyOnline) query.onlyOnline = true;
 
   return fetch('/users?' + querystring.stringify(query), {
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
   .then(res => res.json())
 }
@@ -25,9 +29,17 @@ export const signUpUser = async (username) => {
   .then(res => res.json());
 }
 
-export const getMessages = async (skip = 0, limit = 50) => {
-  return fetch('/messages?' + querystring.stringify({ skip, limit }), {
+export const getMessages = async (skip = 0, limit = 50, username, beginDate, endDate, order) => {
+  let query = { skip, limit };
+  if (username) query.username = username;
+  if (beginDate) query.beginDate = beginDate;
+  if (endDate) query.endDate = endDate;
+  if (order) query.order = order;
+  return fetch('/messages?' + querystring.stringify(query), {
     method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
   .then(res => res.json())
   .then( res => {
@@ -39,6 +51,7 @@ export const getMessages = async (skip = 0, limit = 50) => {
   })
 }
 
+// not used
 export const sendMessage = async (content, authorId) => {
   return fetch('/messages', {
     method: 'POST',
@@ -54,18 +67,41 @@ export const sendMessage = async (content, authorId) => {
 export const signUpConsultant = async ( username, password ) => {
   return fetch('/consultant', {
     method: "POST",
-    body: {
+    body: JSON.stringify({
       username,
       password
+    }),
+    headers: {
+      'Content-Type': 'application/json'
     }
   })
+  .then(res => res.json())
+}
+
+export const loginConsultant = async (username, passoword) => {
+  return fetch('/consultant/login', {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      password
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
 }
 
 export const deleteMessage = async (messageId) => {
+  let token = getConsultantTokenFromCookie();
+  if (!token) {
+    throw new Error('Você deve estar logado como consultor para deletar uma mensagem.');
+  }
   return fetch('/messages/' + messageId, {
     method: 'DELETE',
     headers: {
-      'authorization': '' // pegar do cookie
+      'authorization': getConsultantTokenFromCookie() // pegar do cookie
     }  
-  })  
+  })
+  .then(res => res.json()) 
 }  

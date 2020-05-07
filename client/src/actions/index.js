@@ -1,6 +1,6 @@
 import * as API from '../api';
 import * as actions from './types';
-import { setUserIdInCookie, removeUserIdFromCookie } from '../Cookie';
+import { setUserIdInCookie, removeUserIdFromCookie, setConsultantIdInCookie, getConsultantIdFromCookie, removeConsultantIdFromCookie } from '../Cookie';
 
 export const signUpUser = (username) => 
   dispatch => {
@@ -93,4 +93,9 @@ export const pushUser = (user) =>
 export const removeUser = (user) => 
   dispatch => {
     dispatch({ type: actions.REMOVE_USER, payload: { user }})
+  }
+
+export const signUpConsultant = (username, password) => 
+  dispatch => {
+    
   }
