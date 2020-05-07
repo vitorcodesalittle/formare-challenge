@@ -5,7 +5,7 @@ export default (props) => {
 
   return (
     <div className='Input' style={props.style ? { ...props.style } : {} }>
-      <input type={props.type} onChange={props.onChange} value={props.value} placeholder={props.placeholder}/>
+      <input type={props.type} onChange={props.onChange} value={props.value} placeholder={props.placeholder} onKeyUp={props.onKeyUp}/>
       <div className="horizontal-line"></div>
     </div>
   )

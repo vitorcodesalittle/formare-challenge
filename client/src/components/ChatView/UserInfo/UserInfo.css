@@ -1,5 +1,6 @@
 .UserInfo {
   background-color: aquamarine;
   display: flex;
+  height: 50px;
   flex-direction: row;
 }
