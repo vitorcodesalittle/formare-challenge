@@ -10,5 +10,25 @@
   width: 100%;
   display: flex;
   flex-direction: row;;
+  height: 40px;
   /* border: black solid 1px; */
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  max-height: calc(100% - 50px - 40px); 
+}
+
+.Message {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 0.8px solid gray;
+  /* background-color: rgba(193, 243, 165, 0.816); */
+  /* background-color: rgba(238, 201, 159, 0.816); */
+
 }

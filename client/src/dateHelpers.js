@@ -5,10 +5,9 @@ export const formatDate = (dateOrUTCString) => {
   } else if (typeof dateOrUTCString === 'object') {
     date = dateOrUTCString;
   }
-  console.log(dateOrUTCString, ' the date being trnasformed is now ', date);
 
-  let DD = date.getDay();
-  let MM = date.getMonth();
+  let DD = date.getDate();
+  let MM = date.getMonth()+1;
   let YYYY = date.getFullYear();
   let HH = date.getHours();
   let mm = date.getMinutes();

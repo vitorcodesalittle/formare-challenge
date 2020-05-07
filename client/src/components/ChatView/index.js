@@ -79,7 +79,7 @@ function ChatView(props) {
       <UserInfo me={props.me}/>
       <OnlineUsers users={props.users}/>
       <Chat chatLoading={props.chatLoading}
-        loadOldMessages={props.loadOldMessages}
+        loadOldMessages={loadOldMessages}
         messages={props.messages}
         handleChangeContent={setContent}
         content={content}
