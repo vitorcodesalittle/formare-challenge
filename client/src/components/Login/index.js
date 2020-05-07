@@ -5,7 +5,7 @@ import {
   getConsultantIdFromCookie,
   removeUserIdFromCookie
 } from '../../Cookie';
-import { signUpUser, getUser, userLogout } from '../../actions';
+import { signUpUser, getUser, userLogout, signUpConsultant } from '../../actions';
 
 const Login = function(props) {
   const [ loginPage, setLoginPage ] = useState('user')
@@ -40,6 +40,7 @@ const Login = function(props) {
       }
     } else {
       // login as consultant
+
     }
   }
 
@@ -106,13 +107,18 @@ const Login = function(props) {
 }
 
 const mapStateToProps = state => ({
-  me: state.me
+  me: state.me,
+  consultantMe: {
+    username: state.consultantApp.username,
+    id: state.consultantApp.id
+  }
 })
 
 const mapDispatchToProps = dispatch => ({
   getUser: (userId) => dispatch(getUser(userId)),
   signUpUser: (username) => dispatch(signUpUser(username)),
-  userLogout: () => dispatch(userLogout())
+  userLogout: () => dispatch(userLogout()),
+  signUpConsultant: (username, password) => dispatch(signUpConsultant(username, password))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

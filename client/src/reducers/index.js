@@ -45,6 +45,9 @@ const initialState = {
     // filteredMessages: [],
     // users: [],
     // userGroups: []
+    // messagesLoading: false, // true enquanto pega mensagens por filtro
+    // authLoading: false, // true enquanto cria consultant ou autentica
+    // usersLoading: false // true enquanto busca usuários ou separa em grupos
   },
   chatLoading: false,
   error: null
@@ -164,20 +167,29 @@ const reducer = function(state = initialState, action) {
       }
     case CREATE_CONSULTANT_STARTED:
       return {
-        ...state
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          authLoading:true
+        }
       }
     case CREATE_CONSULTANT_SUCCESS:
       return {
         ...state,
         consultantApp: {
-          ...consultantApp,
+          ...state.consultantApp,
           username: payload.consultant.username,
-          id: payload.consultant._id
+          id: payload.consultant._id,
+          authLoading: false
         }
       }
     case CREATE_CONSULTANT_FAILED:
       return {
         ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          authLoading: false
+        },
         error
       }
     default:
