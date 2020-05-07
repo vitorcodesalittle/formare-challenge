@@ -178,3 +178,21 @@ export const getFilteredMessages = (userId, beginDate, endDate, order, skip = 0,
         throw err;
       })
   }
+
+export const searchUser = (username) =>
+  dispatch => {
+    dispatch({ type: actions.SEARCH_USER_STARTED })
+    API.getUsers(undefined, undefined, username)
+      .then(res => {
+        console.log('response: ', res);
+        if (res.success) {
+          dispatch({ type: actions.SEARCH_USER_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.SEARCH_USER_FAILED, error: res.message })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.SEARCH_USER_FAILED, error: 'Erro no servidor'})
+        throw err;
+      })
+  }
