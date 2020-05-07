@@ -79,15 +79,20 @@ const Login = function(props) {
     setConsultantHasSession(false)
   }
 
+  const isSelected = name => loginPage === name;
+  let userSelectorClassName = 'selector-option';
+  userSelectorClassName += isSelected('user') ? ' selected' : ''
+  let consultantSelectorClassName = 'selector-option';
+  consultantSelectorClassName += isSelected('consultant') ? ' selected' : '';
   return (
     <div className="Login">
       <div className='selector'>
-        <div className='selector-option'
+        <div className={userSelectorClassName}
           onClick={() => setLoginPage('user')}>
           <p>Usuário</p>
         </div>
         <div className='verticalline'></div>
-        <div className='selector-option'
+        <div className={consultantSelectorClassName}
           onClick={() => setLoginPage('consultant')}>
           <p>Consultor</p>
         </div>

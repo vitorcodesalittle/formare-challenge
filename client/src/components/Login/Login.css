@@ -21,6 +21,9 @@
   /* justify-content: space-evenly; */
 }
 
+.selected {
+  background-color: rgb(173, 172, 172);
+}
 
 .selector-option {
   display: 'flex';
