@@ -14,7 +14,10 @@ import {
   GET_ONLINE_USERS_SUCCESS,
   GET_ONLINE_USERS_FAILED,
   PUSH_USER,
-  REMOVE_USER
+  REMOVE_USER,
+  CREATE_CONSULTANT_STARTED,
+  CREATE_CONSULTANT_SUCCESS,
+  CREATE_CONSULTANT_FAILED
  } from "../actions/types";
 
 const initialState = {
@@ -36,6 +39,13 @@ const initialState = {
     //   createdAt: ''
     // }
   ],
+  consultantApp: {
+    // username: '',
+    // id: '',
+    // filteredMessages: [],
+    // users: [],
+    // userGroups: []
+  },
   chatLoading: false,
   error: null
 }
@@ -151,6 +161,24 @@ const reducer = function(state = initialState, action) {
       return {
         ...state,
         users: newUsers
+      }
+    case CREATE_CONSULTANT_STARTED:
+      return {
+        ...state
+      }
+    case CREATE_CONSULTANT_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...consultantApp,
+          username: payload.consultant.username,
+          id: payload.consultant._id
+        }
+      }
+    case CREATE_CONSULTANT_FAILED:
+      return {
+        ...state,
+        error
       }
     default:
       return state

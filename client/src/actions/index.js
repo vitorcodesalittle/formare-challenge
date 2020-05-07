@@ -97,5 +97,16 @@ export const removeUser = (user) =>
 
 export const signUpConsultant = (username, password) => 
   dispatch => {
-    
+    dispatch({ type: actions.CREATE_CONSULTANT_STARTED })
+    API.signUpConsultant(username, password)
+      .then(res => {
+        if (res.success) {
+          dispatch({ type: actions.CREATE_CONSULTANT_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.CREATE_CONSULTANT_FAILED, error: res.message })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.CREATE_CONSULTANT_FAILED, error: 'Erro no servidor'})
+      })
   }
