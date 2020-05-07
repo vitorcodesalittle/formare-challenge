@@ -10,10 +10,10 @@ const OnlineUsers = function (props) {
   let containerCSSClasses = ['container']
   if (isOpened) {
     openControl = <div onClick={() => setIsOpened(false)}><img src={closeIcon} width={iconSize} height={iconSize} className='icon'/></div>
-    containerCSSClasses.push('closeUpAnimation')  
+    containerCSSClasses.push('openDownAnimation')
   } else {
     openControl = <div onClick={() => setIsOpened(true)}><img src={crowdIcon} width={iconSize} height={iconSize} className='icon crowd'></img></div>
-    containerCSSClasses.push('openDownAnimation')
+    containerCSSClasses.push('closeUpAnimation')  
   }
   console.log(containerCSSClasses);
   return (

@@ -53,7 +53,7 @@
 
 .closeUpAnimation {
   height: 0px;
-	animation: closeUp 1s ;
+	animation: closeUp 0.5s ;
   overflow-y: hidden;
 }
 
