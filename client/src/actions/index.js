@@ -1,6 +1,6 @@
 import * as API from '../api';
 import * as actions from './types';
-import { setUserIdInCookie, removeUserIdFromCookie, setConsultantIdInCookie, getConsultantIdFromCookie, removeConsultantIdFromCookie } from '../Cookie';
+import { setUserIdInCookie, removeUserIdFromCookie, setConsultantIdInCookie, getConsultantIdFromCookie, removeConsultantIdFromCookie, setConsultantTokenInCookie, removeConsultantTokenFromCookie } from '../Cookie';
 
 export const signUpUser = (username) => 
   dispatch => {
@@ -120,13 +120,40 @@ export const getConsultant = (consultantId) =>
           dispatch({ type: actions.GET_CONSULTANT_SUCCESS, payload: res.data })
         } else {
           dispatch({ type: actions.GET_CONSUNTANT_FAILED, error: res.error })
+          removeConsultantIdFromCookie();
         }
       })
       .catch(err => {
         dispatch({ type: actions.GET_CONSUNTANT_FAILED, error: 'Erro no srevidor' })
+        removeConsultantIdFromCookie();
       })
   }
 export const consultantLogout = () =>
   dispatch => {
     dispatch({ type: actions.CONSULTANT_LOGOUT })
+  }
+
+export const consultantLogin = (username, password) =>
+  dispatch => {
+    dispatch({ type: actions.LOGIN_CONSULTANT_STARTED })
+    console.log('FAZENDO LOGIN!');
+    API.loginConsultant(username, password)
+      .then(res => {
+        console.log(res);
+        if (res.success) {
+          setConsultantIdInCookie(res.userId)
+          setConsultantTokenInCookie(res.token);
+          dispatch({ type: actions.LOGIN_CONSULTANT_SUCCESS})
+        } else {
+          dispatch({ type: actions.LOGIN_CONSULTANT_FAILED, error: res.message })
+          removeConsultantIdFromCookie();
+          removeConsultantTokenFromCookie();
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({ type: actions.LOGIN_CONSULTANT_FAILED, error: 'Erro no servidor'})
+        removeConsultantIdFromCookie();
+        removeConsultantTokenFromCookie();
+      })
   }

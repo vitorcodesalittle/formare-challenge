@@ -8,7 +8,7 @@ import {
   getConsultantTokenFromCookie,
   removeConsultantTokenFromCookie
 } from '../../Cookie';
-import { signUpUser, getUser, userLogout, signUpConsultant, getConsultant, consultantLogout } from '../../actions';
+import { signUpUser, getUser, userLogout, signUpConsultant, getConsultant, consultantLogout, consultantLogin } from '../../actions';
 
 const Login = function(props) {
   const [ loginPage, setLoginPage ] = useState('user')
@@ -37,23 +37,6 @@ const Login = function(props) {
     return () => {}
   }, [ props.me.isLoading, userId, consultantId, props.consultantMe.authLoading, consultantToken ])
 
-  const handleLogin = () => {
-    console.log('LOGIN');
-    if (loginPage === 'user') {
-      handleUserLogin();
-    } else {
-      // login as consultant
-      if ((consultantHasSession || props.consultantMe.id) && consultantToken) {
-        // login
-        props.consultantLogin(props.consultantMe.username, consultantCreatePassword)
-        // props.history.push('/consultant')
-      } else {
-        console.log('Signin up new consultant');
-      }
-
-    }
-  }
-
   const handleUserLogin = () => {
     if (userHasSession || props.me.id) {
       props.history.push('/chat');
@@ -69,6 +52,7 @@ const Login = function(props) {
 
   const handleConsultantLogin = (username, password) => {
     alert('Making login with: ' + username + password);
+    props.consultantLogin(username, password);
   }
 
   const closeUserSession = () => {
@@ -113,7 +97,7 @@ const Login = function(props) {
             <p>{props.me && props.me.username}</p>
           </>
           }
-          { loginPage === 'user' && <button onClick={() => handleLogin()}>{(userHasSession || props.me.id) ? "Entrar no chat" : "Cadastrar" }</button>}
+          { loginPage === 'user' && <button onClick={() => handleUserLogin()}>{(userHasSession || props.me.id) ? "Entrar no chat" : "Cadastrar" }</button>}
           { (userHasSession || props.me.id) && loginPage === 'user' && <button onClick={closeUserSession}>Fechar sessão</button>}
 
         </div> :
@@ -134,7 +118,7 @@ const Login = function(props) {
               <h3> Consultor já tem sessão </h3>
               {props.consultantMe.username && <p>{props.consultantMe.username}</p>}
               { !consultantToken && <label>Senha:</label>}
-              <input type='password' onChange={e => setConsultantPassword}/>
+              <input type='password' onChange={e => setConsultantPassword(e.target.value)}/>
               <button onClick={() => handleConsultantLogin(props.consultantMe.username, consultantPassword)}>Entrar como consultor</button>
               <button onClick={closeConsultantSession}>Fechar Sessão</button>
             </>
@@ -174,7 +158,7 @@ const mapDispatchToProps = dispatch => ({
   signUpConsultant: (username, password) => dispatch(signUpConsultant(username, password)),
   getConsultant: (id) => dispatch(getConsultant(id)),
   consultantLogout: () => dispatch(consultantLogout()),
-  consultantLogin: (username, password) => dispatch()
+  consultantLogin: (username, password) => dispatch(consultantLogin(username, password))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

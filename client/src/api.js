@@ -65,6 +65,7 @@ export const sendMessage = async (content, authorId) => {
 
 
 export const signUpConsultant = async ( username, password ) => {
+  console.log('CADASTRANDO CONSULTANT')
   return fetch('/consultants', {
     method: "POST",
     body: JSON.stringify({
@@ -82,6 +83,7 @@ export const signUpConsultant = async ( username, password ) => {
 }
 
 export const loginConsultant = async (username, password) => {
+  console.log('LOGIN DO CONSULNTAT')
   return fetch('/consultants/login', {
     method: 'POST',
     body: JSON.stringify({
@@ -116,6 +118,7 @@ export const deleteMessage = async (messageId) => {
 }  
 
 export const getConsultant = async (consultantId) => {
+  console.log('PEGANDO CONSULTANT')
   return fetch('/consultants/' + consultantId, {
     method: 'GET',
     headers: {
