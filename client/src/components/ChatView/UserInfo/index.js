@@ -1,11 +1,11 @@
 import React from 'react';
+import './UserInfo.css'
 
 const UserInfo = props => {
   return (
-    <div>
-      <label>Username</label> 
-      <p>{props.me.username}</p>
-
+    <div className='UserInfo'>
+      <p style={{ marginLeft: 5, marginRight: 'auto'}}>Súper Chat!</p>
+      <p style={{ marginRight: 10}}>Bem vindo, {props.me.username}!</p>
     </div>
   )
 }
