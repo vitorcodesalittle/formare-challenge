@@ -20,7 +20,8 @@ import {
   CREATE_CONSULTANT_FAILED,
   GET_CONSULTANT_STARTED,
   GET_CONSULTANT_SUCCESS,
-  GET_CONSUNTANT_FAILED
+  GET_CONSUNTANT_FAILED,
+  CONSULTANT_LOGOUT
  } from "../actions/types";
 
 const initialState = {
@@ -199,7 +200,7 @@ const reducer = function(state = initialState, action) {
       return {
         ...state,
         consultantApp: {
-          ...consultantApp,
+          ...state.consultantApp,
           authLoading: true
         }
       }
@@ -207,7 +208,7 @@ const reducer = function(state = initialState, action) {
       return {
         ...state,
         consultantApp: {
-          ...consultantApp,
+          ...state.consultantApp,
           username: payload.consultant.username,
           id: payload.consultant._id,
           authLoading: false
@@ -216,11 +217,16 @@ const reducer = function(state = initialState, action) {
     case GET_CONSUNTANT_FAILED:
       return {
         ...state,
-        consultantAPp: {
-          ...consultantApp,
+        consultantApp: {
+          ...state.consultantApp,
           authLoading: false
         },
         error
+      }
+    case CONSULTANT_LOGOUT:
+      return {
+        ...state,
+        consultantApp: {}
       }
     default:
       return state

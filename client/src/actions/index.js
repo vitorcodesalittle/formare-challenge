@@ -102,6 +102,7 @@ export const signUpConsultant = (username, password) =>
       .then(res => {
         if (res.success) {
           dispatch({ type: actions.CREATE_CONSULTANT_SUCCESS, payload: res.data })
+          setConsultantIdInCookie(res.data.consultant._id)
         } else {
           dispatch({ type: actions.CREATE_CONSULTANT_FAILED, error: res.message })
         }
@@ -113,7 +114,7 @@ export const signUpConsultant = (username, password) =>
 export const getConsultant = (consultantId) => 
   dispatch => {
     dispatch({ type: actions.GET_CONSULTANT_STARTED });
-    getConsultant(consultantId)
+    API.getConsultant(consultantId)
       .then(res => {
         if (res.success) {
           dispatch({ type: actions.GET_CONSULTANT_SUCCESS, payload: res.data })
@@ -124,4 +125,8 @@ export const getConsultant = (consultantId) =>
       .catch(err => {
         dispatch({ type: actions.GET_CONSUNTANT_FAILED, error: 'Erro no srevidor' })
       })
+  }
+export const consultantLogout = () =>
+  dispatch => {
+    dispatch({ type: actions.CONSULTANT_LOGOUT })
   }

@@ -114,3 +114,16 @@ export const deleteMessage = async (messageId) => {
     throw err;
   })
 }  
+
+export const getConsultant = async (consultantId) => {
+  return fetch('/consultants/' + consultantId, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.json())
+  .catch(err => {
+    throw err;
+  })
+}

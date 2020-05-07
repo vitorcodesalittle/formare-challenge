@@ -4,10 +4,9 @@ const jwt = require('jsonwebtoken');
 exports.createConsultantAction = [
   async (req, res, next) => {
     const { username, password } = req.body;
-
     let existingConsultant = await getConsultant({ username });
 
-    if (existingConsultant) {
+    if (existingConsultant !== null) {
       return res.status(400).json({ success: false, message: "Já existe um consultor com esse nome."})
     }
 

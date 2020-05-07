@@ -41,7 +41,14 @@ exports.insertConsultant = ({ username, password }) => new Promise( async (resol
 
 exports.getConsultant = (query) => new Promise((resolve, reject) => {
   ConsultantModel.find(query)
-    .then(data => data.length > 0 ? resolve(data[0]) : null)
+    .then(data => {
+      console.log('result from find users: ', data);
+      if (data.length > 0) {
+        resolve(data[0])
+        return;
+      }
+      resolve(null);
+    })
     .catch(err => reject(err))
 })
 
