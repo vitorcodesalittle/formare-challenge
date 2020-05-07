@@ -66,7 +66,8 @@ function ChatView(props) {
     let msg = {
       content,
       author: props.me.id,
-      authorName: props.me.username
+      authorName: props.me.username,
+      createdAt: new Date()
     }
     socket.emit('message', msg)
     // mandar mensagem
