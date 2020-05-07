@@ -27,7 +27,10 @@ import {
   LOGIN_CONSULTANT_FAILED,
   GET_FILTERED_MESSAGES_STARTED,
   GET_FILTERED_MESSAGES_SUCCESS,
-  GET_FILTERED_MESSAGES_FAILED
+  GET_FILTERED_MESSAGES_FAILED,
+  SEARCH_USER_STARTED,
+  SEARCH_USER_SUCCESS,
+  SEARCH_USER_FAILED
  } from "../actions/types";
 
 const initialState = {
@@ -57,10 +60,14 @@ const initialState = {
     userGroups: [],
     messagesLoading: false, // true enquanto pega mensagens por filtro
     authLoading: false, // true enquanto cria consultant ou autentica
-    usersLoading: false // true enquanto busca usuários ou separa em grupos
+    usersLoading: false, // true enquanto busca usuários ou separa em grupos
+    search: {
+      isLoading: false,
+      users: []
+    }
   },
   chatLoading: false,
-  error: null
+  error: null,
 }
 
 const reducer = function(state = initialState, action) {
@@ -284,6 +291,39 @@ const reducer = function(state = initialState, action) {
           messagesLoading: false
         },
         error
+      }
+    case SEARCH_USER_STARTED:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          search: {
+            ...state.consultantApp.search,
+            isLoading: true
+          }
+        }
+      }
+    case SEARCH_USER_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          search: {
+            isLoading: false,
+            users: [...state.consultantApp.search.users, ...payload.users]
+          }
+        }
+      }
+    case SEARCH_USER_FAILED:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          search: {
+            ...state.consultantApp.search,
+            isLoading: false
+          }
+        }
       }
     default:
       return state
