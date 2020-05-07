@@ -16,7 +16,7 @@ exports.createUserAction = [
 
 exports.getUsersAction = [
   (req, res, next) => {
-    const { userId, onlyOnline, skip, limit, username } = req.query;
+    let { userId, onlyOnline, skip, limit, username } = req.query;
     let query = {};
     if (userId) {
       query._id = userId;
@@ -26,6 +26,9 @@ exports.getUsersAction = [
     }
     if (username) {
       query.username = new RegExp(`^\.*${username}\.*$`) // "like"
+    }
+    if (limit) {
+      limit = parseInt(limit);
     }
     console.log(query);
     getUsers(query, skip, limit)

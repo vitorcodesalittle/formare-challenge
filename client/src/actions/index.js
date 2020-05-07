@@ -196,3 +196,19 @@ export const searchUser = (username) =>
         throw err;
       })
   }
+
+export const getUsersBatch = (size) =>
+  dispatch => {
+    dispatch({ type: actions.GET_USERS_BATCH_STARTED })
+    API.getUsers(undefined, undefined, undefined, size)
+      .then(res => {
+        if (res.success) {
+          dispatch({ type: actions.GET_USERS_BATCH_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.GET_USERS_BATCH_FAILED, error: res.message })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.GET_USERS_BATCH_FAILED, error: 'Erro no servidor.'})
+      })
+  }

@@ -1,12 +1,13 @@
 import querystring from 'querystring';
 import { getConsultantTokenFromCookie } from './Cookie';
 
-export const getUsers = async (userId, onlyOnline, username) => {
+export const getUsers = async (userId, onlyOnline, username, limit=117) => {
   console.log('Getting users: ', username);
   let query = {}
   if (userId) query.userId = userId;
   if (onlyOnline) query.onlyOnline = true;
   if (username) query.username = username;
+  if (limit) query.limit = limit;
   return fetch('/users?' + querystring.stringify(query), {
     method: 'GET',
     headers: {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
-import { getFilteredMessages, searchUser } from '../../actions';
+import { getFilteredMessages, searchUser, getUsersBatch } from '../../actions';
 const ConsultantView = function (props) {
 
   const [ usernameFilter, setUsernameFilter ] = useState('');
@@ -97,11 +97,27 @@ const ConsultantView = function (props) {
     }
   }
 
+  const shuffleArray = (array) => array;
+
   const handleGetUsers = () => {
-    alert(`Getting ${usersBatchSize} users`);
+    // alert(`Getting ${usersBatchSize} users`);
+    props.getUsersBatch(usersBatchSize)
   }
   const handleDivideInGroups = () => {
-    alert(`Dividing in ${numberOfGroups} groups`);
+    const users = { props };
+    let randomPosUsers = shuffleArray(users);
+    let remainingUsers = randomPosUsers.length;
+    const groups = [];
+    for (let i = 0; i < parseInt(numberOfGroups); i++) {
+      groups.push([]);
+    }
+    let groupIdx = 0;
+    while(remainingUsers !== 0) {
+      remainingUsers -= 1;
+      groups[groupIdx].push(randomPosUsers[remainingUsers]);
+      groupIdx = (groupIdx + 1) % parseInt(numberOfGroups);
+    }
+    console.log('groups are: ', groups);
   }
 
   return (
@@ -125,7 +141,7 @@ const ConsultantView = function (props) {
         <button onClick={handleGetFilteredMessages}>Pegar mensagens filtradas</button>
       </div>
 
-      {
+      { props.search && props.search.users && 
         <>
           <label>selecione um usuário para buscar mensagens apenas dele!</label>
           {props.search.users.map( (user, idx) => (
@@ -144,6 +160,12 @@ const ConsultantView = function (props) {
         <button onClick={handleDivideInGroups}>Dividir Usuários</button>
       </div>
 
+      <div>
+        {props.users &&
+          props.users.map((u, idx) => <p key={idx}>{u.username}</p>)
+        }
+      </div>
+
 
     </div>
   )
@@ -151,12 +173,15 @@ const ConsultantView = function (props) {
 
 const mapStateToProps = state => ({
   messages: state.consultantApp.filteredMessages,
-  search: state.consultantApp.search
+  search: state.consultantApp.search,
+  users: state.consultantApp.users,
+  usersLoading: state.consultantApp.usersLoading
 })
 
 const mapDispatchToProps = dispatch => ({
   getFilteredMessages: (username, beginDate, endDate, order, skip, limit) => dispatch(getFilteredMessages(username, beginDate, endDate, order, skip, limit)),
-  searchUsers: (username) => dispatch(searchUser(username))
+  searchUsers: (username) => dispatch(searchUser(username)),
+  getUsersBatch: (size) => dispatch(getUsersBatch(size))
 
 })
 

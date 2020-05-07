@@ -30,8 +30,12 @@ import {
   GET_FILTERED_MESSAGES_FAILED,
   SEARCH_USER_STARTED,
   SEARCH_USER_SUCCESS,
-  SEARCH_USER_FAILED
+  SEARCH_USER_FAILED,
+  GET_USERS_BATCH_STARTED,
+  GET_USERS_BATCH_SUCCESS,
+  GET_USERS_BATCH_FAILED
  } from "../actions/types";
+import { statement } from "@babel/template";
 
 const initialState = {
   me: {
@@ -323,6 +327,32 @@ const reducer = function(state = initialState, action) {
             ...state.consultantApp.search,
             isLoading: false
           }
+        }
+      }
+    case GET_USERS_BATCH_STARTED:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          usersLoading: true
+        }
+      }
+    case GET_USERS_BATCH_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          usersLoading: false,
+          users: payload.users
+        }
+      }
+    case GET_USERS_BATCH_FAILED:
+      return {
+        ...state,
+        error,
+        consultantApp: {
+          ...state.consultantApp,
+          usersLoading: false
         }
       }
     default:
