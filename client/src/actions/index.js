@@ -137,17 +137,19 @@ export const consultantLogin = (username, password) =>
   dispatch => {
     dispatch({ type: actions.LOGIN_CONSULTANT_STARTED })
     console.log('FAZENDO LOGIN!');
-    API.loginConsultant(username, password)
+    return API.loginConsultant(username, password)
       .then(res => {
         console.log(res);
         if (res.success) {
           setConsultantIdInCookie(res.userId)
           setConsultantTokenInCookie(res.token);
           dispatch({ type: actions.LOGIN_CONSULTANT_SUCCESS})
+          return true;
         } else {
           dispatch({ type: actions.LOGIN_CONSULTANT_FAILED, error: res.message })
           removeConsultantIdFromCookie();
           removeConsultantTokenFromCookie();
+          return false;
         }
       })
       .catch(err => {
@@ -155,5 +157,6 @@ export const consultantLogin = (username, password) =>
         dispatch({ type: actions.LOGIN_CONSULTANT_FAILED, error: 'Erro no servidor'})
         removeConsultantIdFromCookie();
         removeConsultantTokenFromCookie();
+        return false;
       })
   }

@@ -51,8 +51,15 @@ const Login = function(props) {
   }
 
   const handleConsultantLogin = (username, password) => {
-    alert('Making login with: ' + username + password);
-    props.consultantLogin(username, password);
+    props.consultantLogin(username, password)
+      .then(logged => {
+        if (logged) {
+          props.history.push('/consultant');
+        }
+      })
+      .catch(err => {
+        throw err;
+      })
   }
 
   const closeUserSession = () => {
@@ -158,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
   signUpConsultant: (username, password) => dispatch(signUpConsultant(username, password)),
   getConsultant: (id) => dispatch(getConsultant(id)),
   consultantLogout: () => dispatch(consultantLogout()),
-  consultantLogin: (username, password) => dispatch(consultantLogin(username, password))
+  consultantLogin: async (username, password) => dispatch(consultantLogin(username, password))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
