@@ -17,6 +17,6 @@ export const formatDate = (dateOrUTCString) => {
 
 }
 
-export const getDateObject = (year, month, day, hours, minutes, seconds, ms) => new Date(year, month, day, hours, minutes, seconds, ms);
+export const getDateObject = (year, month, day, hours, minutes, seconds) => new Date(year, month, day, hours, minutes, seconds);
 
 

@@ -33,7 +33,7 @@ exports.loginAction = [
       const token = jwt.sign({ id: consultant._id }, process.env.SECRET, {
         expiresIn: 24 * 60 * 60 // token expira em 1 dia.
       })
-      res.status(200).json({ success: true, token })
+      res.status(200).json({ success: true, userId: consultant._id, token })
     } else {
       res.status(401).json({ success: false, message: "Falha na autenticação. Verifique os campos de login."})
     }
@@ -42,6 +42,7 @@ exports.loginAction = [
 
 exports.getConsultantAction = [
   (req, res, next) => {
+    console.log('PEGANDO USUARIO')
     const consultantId = req.params.consultant_id;
     getConsultant({ _id: consultantId })
       .then(consultant => {

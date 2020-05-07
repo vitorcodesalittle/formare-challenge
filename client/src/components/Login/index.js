@@ -53,6 +53,7 @@ const Login = function(props) {
   const handleConsultantLogin = (username, password) => {
     props.consultantLogin(username, password)
       .then(logged => {
+        console.log('Logged? ', logged);
         if (logged) {
           props.history.push('/consultant');
         }
