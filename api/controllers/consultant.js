@@ -52,6 +52,7 @@ exports.getConsultantAction = [
         res.status(200).json({ success: true, data: { consultant }})
       })
       .catch(err => {
+        console.log(err);
         return res.status(500).json({ success: false, message: "Erro no servidor" });
       })
   }
