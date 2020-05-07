@@ -1,13 +1,20 @@
 .OnlineUsers {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
+  /* background-color: white; */
   display: flex;
   flex-direction: column;
   width: fit-content;
   min-width: 200px;
   position: fixed;
   left: 20px;
+  top: 80px;
 }
 
+
+.container {
+  overflow-y: auto;
+
+}
 .online-indicator {
   width: 10px;
   height: 10px;
@@ -24,5 +31,47 @@
   border: 1px solid black;
   padding-left: 15px;
   padding-right: 15px;
-  height: 20px;;
+  height: 20px;
+  background-color: white;
+}
+
+.icon {
+
+}
+
+.crowd {
+  background-color: white;
+  border-radius: 50%;
+  padding: 0px;
+}
+
+
+.openDownAnimation {
+	height: 200px;
+  animation: openDown 1s ;
+}
+
+.closeUpAnimation {
+  height: 0px;
+	animation: closeUp 1s ;
+  overflow-y: hidden;
+}
+
+
+@keyframes openDown {
+	0% {
+		height: 0px;
+	}
+	100% {
+		height: 100%;
+	}
+}
+
+@keyframes closeUp {
+	0% {
+		height: 200px;
+	}
+	100% {
+		height: 0px;
+	}
 }

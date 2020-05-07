@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import './OnlineUsers.css';
+import closeIcon from '../../../assets/close.png';
+import crowdIcon from '../../../assets/crowd.png';
+const iconSize = 20;
 const OnlineUsers = function (props) {
   const [ isOpened, setIsOpened ] = useState(true);
+
+  let openControl = null;
+  let containerCSSClasses = ['container']
+  if (isOpened) {
+    openControl = <div onClick={() => setIsOpened(false)}><img src={closeIcon} width={iconSize} height={iconSize} className='icon'/></div>
+    containerCSSClasses.push('closeUpAnimation')  
+  } else {
+    openControl = <div onClick={() => setIsOpened(true)}><img src={crowdIcon} width={iconSize} height={iconSize} className='icon crowd'></img></div>
+    containerCSSClasses.push('openDownAnimation')
+  }
+  console.log(containerCSSClasses);
   return (
-    <div className="OnlineUsers">
-      { props.users.map((u, idx) => u && 
-        <div key={idx} 
-          className='user-container'>
-          <p>{u.username}</p>
-          <div className="online-indicator"/>
-        </div>
-        )
-      }
+    <div className='OnlineUsers'>
+      { openControl }
+      <div className={containerCSSClasses.join(' ')}>
+        { props.users.map((u, idx) => u && 
+          <div key={idx} 
+            className='user-container'>
+            <p>{u.username}</p>
+            <div className="online-indicator"/>
+          </div>
+          )
+        }
+      </div>
     </div>
   )
 }
