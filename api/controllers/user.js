@@ -16,13 +16,16 @@ exports.createUserAction = [
 
 exports.getUsersAction = [
   (req, res, next) => {
-    const { userId, onlyOnline, skip, limit } = req.query;
+    const { userId, onlyOnline, skip, limit, username } = req.query;
     let query = {};
     if (userId) {
       query._id = userId;
     }
     if (onlyOnline) {
       query.online = true;
+    }
+    if (username) {
+      query.username = username
     }
     getUsers(query, skip, limit)
       .then(users => {
