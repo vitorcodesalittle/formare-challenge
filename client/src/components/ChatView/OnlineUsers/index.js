@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './OnlineUsers.css';
 import closeIcon from '../../../assets/close.png';
 import crowdIcon from '../../../assets/crowd.png';
-const iconSize = 20;
+const iconSize = 30;
 const OnlineUsers = function (props) {
   const [ isOpened, setIsOpened ] = useState(true);
 
