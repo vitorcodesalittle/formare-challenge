@@ -17,7 +17,10 @@ import {
   REMOVE_USER,
   CREATE_CONSULTANT_STARTED,
   CREATE_CONSULTANT_SUCCESS,
-  CREATE_CONSULTANT_FAILED
+  CREATE_CONSULTANT_FAILED,
+  GET_CONSULTANT_STARTED,
+  GET_CONSULTANT_SUCCESS,
+  GET_CONSUNTANT_FAILED
  } from "../actions/types";
 
 const initialState = {
@@ -188,6 +191,33 @@ const reducer = function(state = initialState, action) {
         ...state,
         consultantApp: {
           ...state.consultantApp,
+          authLoading: false
+        },
+        error
+      }
+    case GET_CONSULTANT_STARTED:
+      return {
+        ...state,
+        consultantApp: {
+          ...consultantApp,
+          authLoading: true
+        }
+      }
+    case GET_CONSULTANT_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...consultantApp,
+          username: payload.consultant.username,
+          id: payload.consultant._id,
+          authLoading: false
+        }
+      }
+    case GET_CONSUNTANT_FAILED:
+      return {
+        ...state,
+        consultantAPp: {
+          ...consultantApp,
           authLoading: false
         },
         error

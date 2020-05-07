@@ -5,7 +5,7 @@ import {
   getConsultantIdFromCookie,
   removeUserIdFromCookie
 } from '../../Cookie';
-import { signUpUser, getUser, userLogout, signUpConsultant } from '../../actions';
+import { signUpUser, getUser, userLogout, signUpConsultant, getConsultant } from '../../actions';
 
 const Login = function(props) {
   const [ loginPage, setLoginPage ] = useState('user')
@@ -22,7 +22,7 @@ const Login = function(props) {
       setUserHasSession(true);
       props.getUser(userId);
     }
-    if (consultantId) {
+    if (consultantId && !props.consultantMe.id && !props.consultantMe.authLoading) {
       setConsultantHasSession(true);
       // get Consultant
     }
@@ -125,7 +125,8 @@ const mapDispatchToProps = dispatch => ({
   getUser: (userId) => dispatch(getUser(userId)),
   signUpUser: (username) => dispatch(signUpUser(username)),
   userLogout: () => dispatch(userLogout()),
-  signUpConsultant: (username, password) => dispatch(signUpConsultant(username, password))
+  signUpConsultant: (username, password) => dispatch(signUpConsultant(username, password)),
+  getConsultant: (id) => dispatch
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

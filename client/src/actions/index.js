@@ -110,3 +110,18 @@ export const signUpConsultant = (username, password) =>
         dispatch({ type: actions.CREATE_CONSULTANT_FAILED, error: 'Erro no servidor'})
       })
   }
+export const getConsultant = (consultantId) => 
+  dispatch => {
+    dispatch({ type: actions.GET_CONSULTANT_STARTED });
+    getConsultant(consultantId)
+      .then(res => {
+        if (res.success) {
+          dispatch({ type: actions.GET_CONSULTANT_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.GET_CONSUNTANT_FAILED, error: res.error })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.GET_CONSUNTANT_FAILED, error: 'Erro no srevidor' })
+      })
+  }
