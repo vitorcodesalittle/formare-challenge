@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
 import { getFilteredMessages, searchUser, getUsersBatch } from '../../actions';
+import Selector from '../UI/Selector';
 const ConsultantView = function (props) {
+
+  const [ actionPage, setActionPage ] = useState('get_messages');
 
   const [ usernameFilter, setUsernameFilter ] = useState('');
   const [ selectedUser, setSelectedUser ] = useState(null);
@@ -139,11 +142,22 @@ const ConsultantView = function (props) {
     console.log('groups are: ', groups);
   }
 
+  let selectorOptions = [
+    {
+      onClick: () => setActionPage('get_messages'),
+      text: 'Filtrar mensagens',
+      selected: actionPage === 'get_messages'
+    },
+    {
+      onClick: () => setActionPage('make_groups'),
+      text: 'Fazer grupos',
+      selected: actionPage === 'make_groups'
+    }
+  ]
+
   return (
     <div>
-      <h1>
-        Consultant View
-      </h1>
+      <Selector options={selectorOptions}/>
       <div>
         <h3>Pegue mensagens filtradas por:</h3>
         <label>Busque um usuário</label>
