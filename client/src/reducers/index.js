@@ -26,7 +26,8 @@ import {
   LOGIN_CONSULTANT_SUCCESS,
   LOGIN_CONSULTANT_FAILED,
   GET_FILTERED_MESSAGES_STARTED,
-  GET_FILTERED_MESSAGES_SUCCESS
+  GET_FILTERED_MESSAGES_SUCCESS,
+  GET_FILTERED_MESSAGES_FAILED
  } from "../actions/types";
 
 const initialState = {
@@ -49,14 +50,14 @@ const initialState = {
     // }
   ],
   consultantApp: {
-    // username: '',
-    // id: '',
-    // filteredMessages: [],
-    // users: [],
-    // userGroups: []
-    // messagesLoading: false, // true enquanto pega mensagens por filtro
-    // authLoading: false, // true enquanto cria consultant ou autentica
-    // usersLoading: false // true enquanto busca usuários ou separa em grupos
+    username: undefined,
+    id: undefined,
+    filteredMessages: [],
+    users: [],
+    userGroups: [],
+    messagesLoading: false, // true enquanto pega mensagens por filtro
+    authLoading: false, // true enquanto cria consultant ou autentica
+    usersLoading: false // true enquanto busca usuários ou separa em grupos
   },
   chatLoading: false,
   error: null

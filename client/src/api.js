@@ -29,12 +29,13 @@ export const signUpUser = async (username) => {
   .then(res => res.json());
 }
 
-export const getMessages = async (skip = 0, limit = 50, username, beginDate, endDate, order) => {
+export const getMessages = async (skip = 0, limit = 50, userId, beginDate, endDate, order) => {
   let query = { skip, limit };
-  if (username) query.username = username;
-  if (beginDate) query.beginDate = beginDate;
-  if (endDate) query.endDate = endDate;
+  if (userId) query.userId = userId;
+  if (beginDate) query.beginDate = beginDate.toString();
+  if (endDate) query.endDate = endDate.toString();
   if (order) query.order = order;
+  console.log(query);
   return fetch('/messages?' + querystring.stringify(query), {
     method: 'GET',
     headers: {

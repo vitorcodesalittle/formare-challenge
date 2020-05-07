@@ -6,6 +6,8 @@ exports.getMessagesAction = [
   async (req, res, next) => {
     let { limit, skip, userId, beginDate, endDate, first } = req.query;
     
+    console.log(req.query);
+
     let query = {}
     let createdAtQuery = {}
     if (userId) query.author = userId;
@@ -15,6 +17,7 @@ exports.getMessagesAction = [
     if (limit) limit = parseInt(limit)
     if (skip) skip = parseInt(skip)
     try {
+      console.log('Using params: ', query, skip, limit, first);
       let messages = await getMessages(query, skip, limit, first)
       for (let i = 0; i < messages.length; i++) {
         let users = await getUsers({ _id: messages[i].author }); 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
-
+import { connect } from 'react-redux'
+import { getFilteredMessages } from '../../actions';
 const ConsultantView = function (props) {
 
   const [ usernameFilter, setUsernameFilter ] = useState('');
@@ -76,7 +77,7 @@ const ConsultantView = function (props) {
       endDate = getDateObject(endDateObj.AAAA, endDateObj.MM, endDateObj.DD, endDateObj.hh, endDateObj.mm, endDateObj.ss);
     }
     if (usernameFilter) {
-      username = usernameFilter
+      username = usernameFilter // GET USER ID BY SEARCHING
     }
     if (order === 'asc'){
       first = 'newer';
@@ -84,6 +85,7 @@ const ConsultantView = function (props) {
       first = 'older'
     }
     console.log('Getting messages with params: ', beginDate, endDate, username, first);
+    props.getFilteredMessages(undefined, beginDate, endDate, first, props.messages.length || 0);
   }
 
   const handleGetUsers = () => {
@@ -129,4 +131,12 @@ const ConsultantView = function (props) {
   )
 }
 
-export default ConsultantView;
+const mapStateToProps = state => ({
+  messages: state.consultantApp.filteredMessages
+})
+
+const mapDispatchToProps = dispatch => ({
+  getFilteredMessages: (username, beginDate, endDate, order, skip, limit) => dispatch(getFilteredMessages(username, beginDate, endDate, order, skip, limit))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConsultantView);

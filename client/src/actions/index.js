@@ -161,10 +161,10 @@ export const consultantLogin = (username, password) =>
       })
   }
 
-export const getFilteredMessages = (username, beginDate, endDate, order, skip = 0, limit = 100) => 
+export const getFilteredMessages = (userId, beginDate, endDate, order, skip = 0, limit = 100) => 
   dispatch => {
     dispatch({ type: actions.GET_FILTERED_MESSAGES_STARTED });
-    API.getMessages(skip, limit, username, beginDate, endDate, order)
+    API.getMessages(skip, limit, userId, beginDate, endDate, order)
       .then(res => {
         console.log(res);
         if (res.success) {
