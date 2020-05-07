@@ -310,7 +310,7 @@ const reducer = function(state = initialState, action) {
           ...state.consultantApp,
           search: {
             isLoading: false,
-            users: [...state.consultantApp.search.users, ...payload.users]
+            users: [...payload.users]
           }
         }
       }

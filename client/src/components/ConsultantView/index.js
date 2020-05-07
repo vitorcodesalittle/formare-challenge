@@ -66,7 +66,7 @@ const ConsultantView = function (props) {
   }
 
   const handleGetFilteredMessages = () => {
-    let beginDate, endDate, username, first = 'newer';
+    let beginDate, endDate, userId, first = 'newer';
     if (beginDateFilter) {
       let beginDateObj = getDateParts(beginDateFilter);
       console.log(beginDateObj)
@@ -77,20 +77,22 @@ const ConsultantView = function (props) {
       console.log(endDateObj)
       endDate = getDateObject(endDateObj.AAAA, endDateObj.MM, endDateObj.DD, endDateObj.hh, endDateObj.mm, endDateObj.ss);
     }
-    if (usernameFilter) {
-      username = usernameFilter // GET USER ID BY SEARCHING
+    if (selectedUser) {
+      userId = selectedUser._id // GET USER ID BY SEARCHING
     }
     if (order === 'asc'){
       first = 'newer';
     } else {
       first = 'older'
     }
-    console.log('Getting messages with params: ', beginDate, endDate, username, first);
-    props.getFilteredMessages(undefined, beginDate, endDate, first, props.messages.length || 0);
+    console.log('Getting messages with params: ', beginDate, endDate, userId, first);
+    props.getFilteredMessages(userId, beginDate, endDate, first, 0);
   }
 
   const handleSearchUser = (username) => {
-    if (username > 1 && !props.search.isLoading) {
+    console.log('Searching username: ', username, props.search.isLoading)
+    if (username.length > 1 && !props.search.isLoading) {
+      console.log('Searching actions!')
       props.searchUsers(username);
     }
   }
@@ -122,6 +124,15 @@ const ConsultantView = function (props) {
         </select>
         <button onClick={handleGetFilteredMessages}>Pegar mensagens filtradas</button>
       </div>
+
+      {
+        <>
+          <label>selecione um usuário para buscar mensagens apenas dele!</label>
+          {props.search.users.map( (user, idx) => (
+            <p key={idx} onClick={() => setSelectedUser(user)} style={{ color: (selectedUser && user._id === selectedUser._id) ? 'red' : 'black'}}>{user.username} - {user._id}</p>
+          ))}
+        </>
+      }
 
       <div>
         <h3>Pegue usuários e separe-os em grupos!</h3>

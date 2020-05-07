@@ -2,7 +2,7 @@ import querystring from 'querystring';
 import { getConsultantTokenFromCookie } from './Cookie';
 
 export const getUsers = async (userId, onlyOnline, username) => {
-
+  console.log('Getting users: ', username);
   let query = {}
   if (userId) query.userId = userId;
   if (onlyOnline) query.onlyOnline = true;

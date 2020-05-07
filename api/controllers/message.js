@@ -4,21 +4,21 @@ const { getUsers } = require('../models/user');
 
 exports.getMessagesAction = [
   async (req, res, next) => {
-    let { limit, skip, userId, beginDate, endDate, first } = req.query;
+    let { limit, skip, userId, beginDate, endDate, order } = req.query;
     
     console.log(req.query);
 
     let query = {}
     let createdAtQuery = {}
     if (userId) query.author = userId;
-    if (beginDate) createdAtQuery = { $gte: new Date(beginDate) }
-    if (endDate) createdAtQuery = { $lte: new Date(endDate) }
+    if (beginDate) createdAtQuery.$gte = new Date(beginDate);
+    if (endDate) createdAtQuery.$lte = new Date(endDate);
     if (Object.keys(createdAtQuery).length > 0) query.createdAt = createdAtQuery;
     if (limit) limit = parseInt(limit)
     if (skip) skip = parseInt(skip)
     try {
-      console.log('Using params: ', query, skip, limit, first);
-      let messages = await getMessages(query, skip, limit, first)
+      console.log('Using params: ', query, skip, limit, order);
+      let messages = await getMessages(query, skip, limit, order)
       for (let i = 0; i < messages.length; i++) {
         let users = await getUsers({ _id: messages[i].author }); 
         messages[i].authorName = users[0].username

@@ -25,8 +25,9 @@ exports.getUsersAction = [
       query.online = true;
     }
     if (username) {
-      query.username = /username/ // "like"
+      query.username = new RegExp(`^\.*${username}\.*$`) // "like"
     }
+    console.log(query);
     getUsers(query, skip, limit)
       .then(users => {
         res.status(200).json({ success: true, data: { users } });
