@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import './ChatView.css'
 import socketIOClient from "socket.io-client";
 import { connect } from 'react-redux';
-import { getOldMessages, getUser, pushMessageToEnd, getOnlineUsers, pushUser, removeUser } from '../../actions'
-import { getUserIdFromCookie } from "../../Cookie";
+import { getOldMessages, getUser, pushMessageToEnd, getOnlineUsers, pushUser, removeUser, userLogout } from '../../actions'
+import { getUserIdFromCookie, removeUserIdFromCookie } from "../../Cookie";
 import OnlineUsers from './OnlineUsers';
 import UserInfo from './UserInfo';
 import Chat from './Chat';
@@ -54,6 +54,12 @@ function ChatView(props) {
     }
   }, [ props.me ])
 
+  const handleLogout = () => {
+    props.userLogout();
+    removeUserIdFromCookie();
+    props.history.push('/');
+  }
+
   const loadOldMessages = async () => {
     return props.getOldMessages(props.messages.length);
   }
@@ -78,7 +84,7 @@ function ChatView(props) {
 
   return (
     <div className="ChatView">
-      <UserInfo me={props.me}/>
+      <UserInfo me={props.me} logout={handleLogout}/>
       <OnlineUsers users={props.users}/>
       <Chat chatLoading={props.chatLoading}
         loadOldMessages={loadOldMessages}
@@ -104,7 +110,8 @@ const mapDispatchToProps = dispatch => ({
   pushMessageToEnd: (message) => dispatch(pushMessageToEnd(message)),
   getOnlineUsers: () => dispatch(getOnlineUsers()),
   pushUser: user => dispatch(pushUser(user)),
-  removeUser: user => dispatch(removeUser(user))
+  removeUser: user => dispatch(removeUser(user)),
+  userLogout: () => dispatch(userLogout())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatView);
