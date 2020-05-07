@@ -25,7 +25,7 @@ exports.getUsersAction = [
       query.online = true;
     }
     if (username) {
-      query.username = username
+      query.username = /username/ // "like"
     }
     getUsers(query, skip, limit)
       .then(users => {
