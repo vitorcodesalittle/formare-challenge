@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import './Login.css';
 import { connect } from 'react-redux'
+import UserLogin from './UserLogin';
+import ConsultantAuth from './ConsultantAuth';
 import {
   getUserIdFromCookie,
   getConsultantIdFromCookie,
@@ -12,7 +15,7 @@ import { signUpUser, getUser, userLogout, signUpConsultant, getConsultant, consu
 
 const Login = function(props) {
   const [ loginPage, setLoginPage ] = useState('user')
-  const [ username, setUsername ] = useState('');
+  const [ username, setUsername ] = useState(''); // UserLogin
   const [ consultantCreateUsername, setConsultantCreateUsername ] = useState('');
   const [ consultantCreatePassword, setConsultantCreatePassword ] = useState('');
   const [ userHasSession, setUserHasSession ] = useState(false);
@@ -77,15 +80,16 @@ const Login = function(props) {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-
-      <div>
-        <div onClick={() => setLoginPage('user')}>
-          Aplicação Usuário
+    <div className="Login">
+      <div className='selector'>
+        <div className='selector-option'
+          onClick={() => setLoginPage('user')}>
+          <p>Aplicação Usuário</p>
         </div>
-        <div onClick={() => setLoginPage('consultant')}>
-          Aplicação Consultor
+        <div className='verticalline'></div>
+        <div className='selector-option'
+          onClick={() => setLoginPage('consultant')}>
+          <p>Aplicação Consultor</p>
         </div>
       </div>
       {
