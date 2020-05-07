@@ -108,6 +108,7 @@ const Login = function(props) {
           handleChangeCreateUsername={setConsultantCreateUsername}
           handleChangeCreatePassword={setConsultantCreatePassword}
           handleConsultantSignUp={handleConsultantSignUp}
+          handleConsultantLogin={handleConsultantLogin}
           consultantUsername={consultantUsername}
           consultantPassword={consultantPassword}
           handleChangeConsultantUsername={setConsultantUsername}

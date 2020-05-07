@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import './ConsultantAuth.css';
+import Input from '../../UI/Input';
+import Button from '../../UI/Button';
 
 const ConsultantAuth = function({ 
   consultantToken, 
@@ -13,15 +16,21 @@ const ConsultantAuth = function({
   ...props}) {
 
   return (
-    <div>
+    <div className='ConsultantAuth'>
       { (!consultantHasSession && !props.consultantMe.id) &&
       <>
         <h3>Crie sua conta como Consultor</h3>
-        <label>Username</label>
-        <input type='text' onChange={e => props.handleChangeCreateUsername(e.target.value)} value={consultantCreateUsername}/>
-        <label>Senha</label>
-        <input type='password' onChange={e => props.handleChangeCreatePassword(e.target.value)} value={consultantCreatePassword}/>
-        { <button onClick={() => handleConsultantSignUp()}>Cadastrar</button>}
+        <Input placeholder="Username" 
+          type='text' 
+          onChange={e => props.handleChangeCreateUsername(e.target.value)} 
+          value={consultantCreateUsername}
+          style={{ width: 'fit-content', marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'}}/>
+        <Input placeholder="Senha" 
+          type='password' 
+          onChange={e => props.handleChangeCreatePassword(e.target.value)} 
+          value={consultantCreatePassword}
+          style={{ width: 'fit-content', marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'}}/>
+        { <Button onClick={() => handleConsultantSignUp()}>Cadastrar</Button>}
       </>
       }
       {
@@ -29,10 +38,9 @@ const ConsultantAuth = function({
         <>
           <h3> Consultor já tem sessão </h3>
           {props.consultantMe.username && <p>{props.consultantMe.username}</p>}
-          { !consultantToken && <label>Senha:</label>}
-          <input type='password' onChange={e => props.handleChangeConsultantPassword(e.target.value)}/>
-          <button onClick={() => handleConsultantLogin(props.consultantMe.username, consultantPassword)}>Entrar como consultor</button>
-          <button onClick={closeConsultantSession}>Fechar Sessão</button>
+          <Input placeholder="Senha" type='password' onChange={e => props.handleChangeConsultantPassword(e.target.value)} style={{ width: 'fit-content', marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'}}/>
+          <Button onClick={() => handleConsultantLogin(props.consultantMe.username, consultantPassword)}>Entrar como consultor</Button>
+          <Button onClick={closeConsultantSession}>Fechar Sessão</Button>
         </>
         
       }
@@ -40,11 +48,9 @@ const ConsultantAuth = function({
         !(consultantHasSession || props.consultantMe.id) &&
         <>
           <h3>Entrar como Consultor</h3>
-          <label>Username</label>
-          <input type='text' onChange={e => props.handleChangeConsultantUsername(e.target.value)} value={consultantUsername}></input>
-          <label>Password</label>
-          <input type='password' onChange={e => props.handleChangeConsultantPassword(e.target.value)} value={consultantPassword}></input>
-          <button onClick={() => handleConsultantLogin(consultantUsername, consultantPassword)}>Entrar como consultor</button>
+          <Input placeholder="Username" type='text' onChange={e => props.handleChangeConsultantUsername(e.target.value)} value={consultantUsername} style={{ width: 'fit-content', marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'}}></Input>
+          <Input placeholder="Senha" type='password' onChange={e => props.handleChangeConsultantPassword(e.target.value)} value={consultantPassword} style={{ width: 'fit-content', marginBottom: 10, marginLeft: 'auto', marginRight: 'auto'}}></Input>
+          <Button onClick={() => handleConsultantLogin(consultantUsername, consultantPassword)}>Entrar como consultor</Button>
         </>
       }
     </div>
