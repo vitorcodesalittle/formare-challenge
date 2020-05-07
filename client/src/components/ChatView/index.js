@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import './ChatView.css'
 import socketIOClient from "socket.io-client";
 import { connect } from 'react-redux';
 import { getOldMessages, getUser, pushMessageToEnd, getOnlineUsers, pushUser, removeUser } from '../../actions'
 import { getUserIdFromCookie } from "../../Cookie";
+import OnlineUsers from './OnlineUsers';
+import UserInfo from './UserInfo';
+import Chat from './Chat';
 
 const ENDPOINT = "http://127.0.0.1:8080";
 let socket = null;
@@ -71,28 +75,16 @@ function ChatView(props) {
   }
 
   return (
-    <div className="App" style={{ backgroundColor: 'gray'}}>
+    <div className="ChatView">
+      <UserInfo me={props.me}/>
+      <OnlineUsers users={props.users}/>
+      <Chat chatLoading={props.chatLoading}
+        loadOldMessages={props.loadOldMessages}
+        messages={props.messages}
+        handleChangeContent={setContent}
+        content={content}
+        emitMessage={emitMessage}/>
 
-      <h1> Hello World! </h1>
-      <label>Username</label> 
-      <p>{props.me.username}</p>
-
-      <div>
-        <p>Usuários Online</p>
-        { props.users.map((u, idx) => u && <p key={idx}>{u.username}</p>)}
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column'}}>
-        <h3>Mensagens</h3>
-        { props.chatLoading && <p>Carregando mensagens antigas...</p> }
-        { !props.chatLoading && <button onClick={loadOldMessages}>Carregar mensagens antigas</button>}
-        { props.messages.map((msg, idx) => <p key={idx}>{msg.authorName} - { msg.content}</p>)}
-      </div>
-      <div style={{ }}>
-        <label>Mensagem</label>
-        <input type='text' onChange={e => setContent(e.target.value)} value={content}/>
-        <button onClick={emitMessage}>Enviar</button>
-      </div>
     </div>
   );
 }
