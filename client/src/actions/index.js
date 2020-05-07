@@ -160,3 +160,21 @@ export const consultantLogin = (username, password) =>
         return false;
       })
   }
+
+export const getFilteredMessages = (username, beginDate, endDate, order, skip = 0, limit = 100) => 
+  dispatch => {
+    dispatch({ type: actions.GET_FILTERED_MESSAGES_STARTED });
+    API.getMessages(skip, limit, username, beginDate, endDate, order)
+      .then(res => {
+        console.log(res);
+        if (res.success) {
+          dispatch({ type: actions.GET_FILTERED_MESSAGES_SUCCESS, payload: res.data })
+        } else {
+          dispatch({ type: actions.GET_FILTERED_MESSAGES_FAILED, payload: res.data })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.GET_FILTERED_MESSAGES_FAILED, error: 'Erro no servidor'})
+        throw err;
+      })
+  }

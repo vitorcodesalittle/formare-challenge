@@ -24,7 +24,9 @@ import {
   CONSULTANT_LOGOUT,
   LOGIN_CONSULTANT_STARTED,
   LOGIN_CONSULTANT_SUCCESS,
-  LOGIN_CONSULTANT_FAILED
+  LOGIN_CONSULTANT_FAILED,
+  GET_FILTERED_MESSAGES_STARTED,
+  GET_FILTERED_MESSAGES_SUCCESS
  } from "../actions/types";
 
 const initialState = {
@@ -253,6 +255,32 @@ const reducer = function(state = initialState, action) {
         consultantApp: {
           ...state.consultantApp,
           authLoading: false
+        },
+        error
+      }
+    case GET_FILTERED_MESSAGES_STARTED:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          messagesLoading: true
+        }
+      }
+    case GET_FILTERED_MESSAGES_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          filteredMessages: [ ...payload.messages, ...state.consultantApp.filteredMessages],
+          messagesLoading: false
+        }
+      }
+    case GET_FILTERED_MESSAGES_FAILED:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          messagesLoading: false
         },
         error
       }
