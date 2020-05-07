@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import './Chat.css'
 import Input from '../../UI/Input';
 import Button from '../../UI/Button';
@@ -22,14 +22,23 @@ const Message = ({ authorName, content, createdAt, bg }) => {
 
 const Chat = ({loadOldMessages, emitMessage, content, handleChangeContent, ...props}) => {
 
+  const messagesEl = useRef(null);
+
   const handleEmitMessage = () => {
     // console.log('Emiting')
-    emitMessage(content);
+    emitMessage(content)
+    .then(() => {
+      if (messagesEl) {
+        // messagesEl.current.scrollIntoView({ behavior: 'smooth'});
+        console.log(messagesEl.current.scrollTop, messagesEl.current.scrollHeight, messagesEl.current.scrollHeight - messagesEl.current.scrollTop)
+        messagesEl.current.scrollTop = messagesEl.current.scrollHeight + messagesEl.current.clientHeight + 523;
+      }
+    });
   }
 
   return (
     <div className='Chat'>
-      <div className="messages-container">
+      <div className="messages-container" ref={messagesEl}>
         { props.chatLoading && <p>Carregando mensagens antigas...</p> }
         { !props.chatLoading && <button onClick={loadOldMessages}>Carregar mensagens antigas</button>}
         { props.messages.map((msg, idx) => <Message {...msg} key={idx} bg={idx%2===0 ? 'rgba(193, 243, 165, 0.816)' : 'rgba(238, 201, 159, 0.816)'}/>)}

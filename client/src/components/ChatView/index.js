@@ -58,7 +58,7 @@ function ChatView(props) {
     props.getOldMessages(props.messages.length);
   }
   
-  const emitMessage = () => {
+  const emitMessage = async () => {
     if (!socket) {
       console.log('Não há socket');
       return false;
@@ -73,6 +73,7 @@ function ChatView(props) {
     // mandar mensagem
     setContent('');
     props.pushMessageToEnd(msg);
+    return true
   }
 
   return (
