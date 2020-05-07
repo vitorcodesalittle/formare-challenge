@@ -23,6 +23,7 @@
   text-align: center;
   min-width: 100px;
   width: '100%';
+  cursor: pointer;
   /* width: '100%'; */
 }
 
