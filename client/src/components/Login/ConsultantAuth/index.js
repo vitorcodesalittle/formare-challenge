@@ -10,7 +10,6 @@ const ConsultantAuth = function({
   handleConsultantSignUp,
   closeConsultantSession,
   consultantUsername,
-
   ...props}) {
 
   return (

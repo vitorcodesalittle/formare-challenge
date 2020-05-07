@@ -1,0 +1,9 @@
+.UserLogin {
+  /* background-color: red; */
+  border: 1px solid red;;
+  height: 100%;
+  width: 80%;
+  background-color: rgb(197, 188, 188);
+  padding: 30px;
+  border-radius: 30px;
+}

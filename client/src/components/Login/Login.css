@@ -1,7 +1,13 @@
 .Login {
   display: flex;
-  background-color: rgb(218, 209, 209);
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* flex: 1; */
+  /* height: 100%; */
+  /* border: 3px solid black; */
+  /* margin-top: auto; */
+  /* margin-bottom: auto; */
 }
 
 .selector {
@@ -9,6 +15,9 @@
   flex-direction: row;
   border: solid 1px black;
   margin: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
   /* justify-content: space-evenly; */
 }
 
@@ -20,6 +29,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
+  min-width: 100px;
+  width: '100%';
   /* width: '100%'; */
 }
 

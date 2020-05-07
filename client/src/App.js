@@ -7,7 +7,7 @@ import ConsultantView from './components/ConsultantView';
 
 function App() {
   return (
-    <div>
+    <div className='App'>
       <Router>
         <Switch>
         <Route path='/' component={Login} exact />

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import './UserLogin.css';
 
 const UserLogin = function({ userHasSession, handleUserLogin, closeUserSession, username, handleChangeUsername, ...props }) {
   return (
-    <div>
+    <div className='UserLogin'>
       { (!userHasSession && !props.me.id) && 
       <>
         <h3>Crie seu Usuário</h3>

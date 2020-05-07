@@ -84,12 +84,12 @@ const Login = function(props) {
       <div className='selector'>
         <div className='selector-option'
           onClick={() => setLoginPage('user')}>
-          <p>Aplicação Usuário</p>
+          <p>Usuário</p>
         </div>
         <div className='verticalline'></div>
         <div className='selector-option'
           onClick={() => setLoginPage('consultant')}>
-          <p>Aplicação Consultor</p>
+          <p>Consultor</p>
         </div>
       </div>
       {
