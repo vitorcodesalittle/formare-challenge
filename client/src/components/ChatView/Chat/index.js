@@ -22,6 +22,10 @@ const Message = ({ authorName, content, createdAt, bg }) => {
 
 const Chat = ({loadOldMessages, emitMessage, content, handleChangeContent, ...props}) => {
 
+  useEffect( () => {
+    scrollToBottom();
+  }, [ props.messages ])
+
   const messagesEl = useRef(null);
 
   const scrollToBottom = () => {
