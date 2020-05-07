@@ -2,8 +2,15 @@ const { insertConsultant, validPassword, getConsultant } = require('../models/co
 const jwt = require('jsonwebtoken');
 
 exports.createConsultantAction = [
-  (req, res, next) => {
+  async (req, res, next) => {
     const { username, password } = req.body;
+
+    let existingConsultant = await getConsultant({ username });
+
+    if (existingConsultant) {
+      return res.status(400).json({ success: false, message: "Já existe um consultor com esse nome."})
+    }
+
     insertConsultant({ username, password })
       .then(result => {
         res.status(200).json({ success: true, data: { consultant: result }})
@@ -18,7 +25,7 @@ exports.createConsultantAction = [
 exports.loginAction = [
   async (req, res, next) => {
     const { username, password } = req.body;
-    const consultant = await getConsultant(username);
+    const consultant = await getConsultant({username});
     if (!consultant) {
       return res.status(400).json({ success: false, message: "Não achamos um consultor com esse username"})
     }
@@ -31,5 +38,21 @@ exports.loginAction = [
     } else {
       res.status(401).json({ success: false, message: "Falha na autenticação. Verifique os campos de login."})
     }
+  }
+]
+
+exports.getConsultantAction = [
+  (req, res, next) => {
+    const consultantId = req.params.consultant_id;
+    getConsultant({ _id: consultantId })
+      .then(consultant => {
+        if (!consultant) {
+          return res.status(400).json({ success: false, message: "Não achamos um consultor com id " + consultantId })
+        }
+        res.status(200).json({ success: true, data: { consultant }})
+      })
+      .catch(err => {
+        return res.status(500).json({ success: false, message: "Erro no servidor" });
+      })
   }
 ]
