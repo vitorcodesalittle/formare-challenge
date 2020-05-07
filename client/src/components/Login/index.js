@@ -12,6 +12,7 @@ import {
   removeConsultantTokenFromCookie
 } from '../../Cookie';
 import { signUpUser, getUser, userLogout, signUpConsultant, getConsultant, consultantLogout, consultantLogin } from '../../actions';
+import Selector from '../UI/Selector';
 
 const Login = function(props) {
   const [ loginPage, setLoginPage ] = useState('user')
@@ -86,17 +87,8 @@ const Login = function(props) {
   consultantSelectorClassName += isSelected('consultant') ? ' selected' : '';
   return (
     <div className="Login">
-      <div className='selector'>
-        <div className={userSelectorClassName}
-          onClick={() => setLoginPage('user')}>
-          <p>Usuário</p>
-        </div>
-        <div className='verticalline'></div>
-        <div className={consultantSelectorClassName}
-          onClick={() => setLoginPage('consultant')}>
-          <p>Consultor</p>
-        </div>
-      </div>
+      <Selector options={[{ text: 'Usuário', onClick: () => setLoginPage('user'), selected: loginPage === 'user' }, 
+        { text: 'Consultor', onClick: () => setLoginPage('consultant'), selected: loginPage === 'consultant'}]}/>
       {
         loginPage === 'user' ?
         <UserLogin userHasSession={userHasSession}
