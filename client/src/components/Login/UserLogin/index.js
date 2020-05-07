@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Input from '../../UI/Input';
+import Button from '../../UI/Button';
 import './UserLogin.css';
 
 const UserLogin = function({ userHasSession, handleUserLogin, closeUserSession, username, handleChangeUsername, ...props }) {
@@ -17,8 +18,8 @@ const UserLogin = function({ userHasSession, handleUserLogin, closeUserSession, 
         <p>{props.me && props.me.username}</p>
       </>
       }
-      { <button onClick={() => handleUserLogin()}>{(userHasSession || props.me.id) ? "Entrar no chat" : "Cadastrar" }</button>}
-      { (userHasSession || props.me.id) && <button onClick={closeUserSession}>Fechar sessão</button>}
+      { <Button onClick={() => handleUserLogin()}>{(userHasSession || props.me.id) ? "Entrar no chat" : "Cadastrar" }</Button>}
+      { (userHasSession || props.me.id) && <Button onClick={closeUserSession}>Fechar sessão</Button>}
 
     </div>
   )
