@@ -49,18 +49,21 @@ export const userLogout = () =>
 export const getOldMessages = (skip, limit) => 
   dispatch => {
     dispatch({ type: actions.GET_MESSAGES_STARTED })
-    API.getMessages(skip, limit)
+    return API.getMessages(skip, limit)
       .then(res => {
         console.log(res);
         if (res.success) {
           dispatch({ type: actions.GET_MESSAGES_SUCCESS, payload: res.data })
+          return true;
         } else {
           dispatch({ type: actions.GET_MESSAGES_FAILED, error: res.message })
+          return false;
         }
       })
       .catch(err => {
         console.log('Erro inesperado: ', err);
         dispatch({ type: actions.GET_MESSAGES_FAILED, error: 'Erro no servidor' })
+        return false;
       })
   }
 

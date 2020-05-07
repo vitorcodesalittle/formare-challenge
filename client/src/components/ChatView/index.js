@@ -54,8 +54,8 @@ function ChatView(props) {
     }
   }, [ props.me ])
 
-  const loadOldMessages = () => {
-    props.getOldMessages(props.messages.length);
+  const loadOldMessages = async () => {
+    return props.getOldMessages(props.messages.length);
   }
   
   const emitMessage = async () => {
