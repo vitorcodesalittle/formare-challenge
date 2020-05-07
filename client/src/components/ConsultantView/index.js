@@ -97,7 +97,21 @@ const ConsultantView = function (props) {
     }
   }
 
-  const shuffleArray = (array) => array;
+  const shuffleArray = (array) => {
+    if (!Array.isArray(array)) {
+      console.log('Cant perform shuffle on a non-array object')
+      return false;
+    }
+    let currentIdx = 0
+    while(currentIdx !== array.length) {
+      let randomIdx = Math.floor(Math.random() * array.length);
+      let tmp = array[currentIdx]
+      array[currentIdx] = array[randomIdx];
+      array[randomIdx] = tmp;
+      currentIdx += 1;
+    }
+    return array;
+  }
 
   const handleGetUsers = () => {
     // alert(`Getting ${usersBatchSize} users`);
