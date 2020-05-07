@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Input from '../../UI/Input';
 import './UserLogin.css';
 
 const UserLogin = function({ userHasSession, handleUserLogin, closeUserSession, username, handleChangeUsername, ...props }) {
@@ -7,8 +8,7 @@ const UserLogin = function({ userHasSession, handleUserLogin, closeUserSession, 
       { (!userHasSession && !props.me.id) && 
       <>
         <h3>Crie seu Usuário</h3>
-        <label>Username</label>
-        <input type="text" onChange={e => handleChangeUsername(e.target.value)} value={username}/>
+        <Input type="text" onChange={e => handleChangeUsername(e.target.value)} value={username} placeholder="Username" style={{ maxWidth: 300, marginLeft: 'auto', marginRight: 'auto'}}/>
       </>
       }
       { (userHasSession || props.me.id) && 
