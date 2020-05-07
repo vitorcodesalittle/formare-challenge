@@ -47,7 +47,11 @@ io.on('connection', async socket => {
   socket.on('message', (data) => {
     insertMessage(data)
       .then((message) => {
-        socket.broadcast.emit('message', message);
+        socket.broadcast.emit('message', {
+          content: message.content,
+          author: message.author,
+          authorName: user.username
+        });
       })
       .catch(err => {
         console.log('Erro ao inserir mensagem');

@@ -8,7 +8,8 @@ const MessageSchema = mongoose.Schema({
   },
   author: {
     ref: 'User',
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -32,12 +33,14 @@ exports.getMessages = (query = {}, skip = 0, limit = 30, first='newer') => new P
     .sort({ 
       createdAt: sortArg
     })
+    .lean(true)
     .then( result => {
       resolve(result);
     })
     .catch(err => {
       reject(err);
     })
+
 })
 
 exports.insertMessage = ({ content, author }) => new Promise((resolve, reject) => {

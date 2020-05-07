@@ -1,8 +1,9 @@
 const verifyConsultant = require('../middlewares/verifyConsultant');
 const { insertMessage, getMessages, deleteMessage } = require('../models/message');
+const { getUsers } = require('../models/user');
 
 exports.getMessagesAction = [
-  (req, res, next) => {
+  async (req, res, next) => {
     let { limit, skip, userId, beginDate, endDate, first } = req.query;
     
     let query = {}
@@ -13,14 +14,18 @@ exports.getMessagesAction = [
     if (Object.keys(createdAtQuery).length > 0) query.createdAt = createdAtQuery;
     if (limit) limit = parseInt(limit)
     if (skip) skip = parseInt(skip)
-    getMessages(query, skip, limit, first)
-      .then(messages => {
-        res.status(200).json({ success: true, data: { messages } })
-      })
-      .catch(err => {
-        console.log('Erro ao pegar mensagens: ', err);
-        res.status(500).json({ success: false, message: 'Erro ao pegar mensagens.'})
-      })
+    try {
+      let messages = await getMessages(query, skip, limit, first)
+      for (let i = 0; i < messages.length; i++) {
+        let users = await getUsers({ _id: messages[i].author }); 
+        messages[i].authorName = users[0].username
+      }
+      
+      res.status(200).json({ success: true, data: { messages } })
+    } catch (err) {
+      console.log('Erro ao pegar mensagens: ', err);
+      res.status(500).json({ success: false, message: 'Erro ao pegar mensagens.'})
+    }
   }
 ]
 
