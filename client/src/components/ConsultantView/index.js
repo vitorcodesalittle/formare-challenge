@@ -104,8 +104,13 @@ const ConsultantView = function (props) {
     props.getUsersBatch(usersBatchSize)
   }
   const handleDivideInGroups = () => {
-    const users = { props };
+    const {users} = props;
     let randomPosUsers = shuffleArray(users);
+    console.log(users);
+    if (!Array.isArray(users)) {
+      console.log('Erro: props.users não é um array');
+      return false;
+    }
     let remainingUsers = randomPosUsers.length;
     const groups = [];
     for (let i = 0; i < parseInt(numberOfGroups); i++) {
