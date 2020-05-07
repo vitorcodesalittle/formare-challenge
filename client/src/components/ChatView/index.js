@@ -51,7 +51,7 @@ function ChatView(props) {
   }, [ props.me ])
 
   const loadOldMessages = () => {
-    props.getOldMessages();
+    props.getOldMessages(props.messages.length);
   }
   
   const emitMessage = () => {
@@ -61,7 +61,8 @@ function ChatView(props) {
     }
     let msg = {
       content,
-      author: props.me.id
+      author: props.me.id,
+      authorName: props.me.username
     }
     socket.emit('message', msg)
     // mandar mensagem
@@ -85,7 +86,7 @@ function ChatView(props) {
         <h3>Mensagens</h3>
         { props.chatLoading && <p>Carregando mensagens antigas...</p> }
         { !props.chatLoading && <button onClick={loadOldMessages}>Carregar mensagens antigas</button>}
-        { props.messages.map((msg, idx) => <p key={idx}>{msg.author} - { msg.content}</p>)}
+        { props.messages.map((msg, idx) => <p key={idx}>{msg.authorName} - { msg.content}</p>)}
       </div>
       <div style={{ }}>
         <label>Mensagem</label>

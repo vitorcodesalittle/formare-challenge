@@ -13,7 +13,6 @@ export const getUsers = async (userId, onlyOnline) => {
 }
 
 export const signUpUser = async (username) => {
-  console.log('Username: ', username);
   return fetch('/users', {
     method: 'POST',
     body: JSON.stringify({
