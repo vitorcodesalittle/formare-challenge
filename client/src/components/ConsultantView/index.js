@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
-import { getFilteredMessages } from '../../actions';
+import { getFilteredMessages, searchUser } from '../../actions';
 const ConsultantView = function (props) {
 
   const [ usernameFilter, setUsernameFilter ] = useState('');
+  const [ selectedUser, setSelectedUser ] = useState(null);
   const [ beginDateFilter, setBeginDateFilter ] = useState('20/10/1998 20:30:30');
   const [ endDateFilter, setEndDateFilter ] = useState('20/10/2020 11:30:30');
   const [ order, setOrder ] = useState('asc') // asc : mais nova pra mais antiga --- des : mais antiga pra mais nova'
@@ -13,9 +14,9 @@ const ConsultantView = function (props) {
   const [ numberOfGroups, setNumberOfGroups ] = useState('4');
 
   useEffect( () => {
-
+    console.log(props)
     return () => {}
-  }, [])
+  }, [props])
 
   const getDateParts = (dateString) => {
     let dateObj = {}
@@ -88,6 +89,12 @@ const ConsultantView = function (props) {
     props.getFilteredMessages(undefined, beginDate, endDate, first, props.messages.length || 0);
   }
 
+  const handleSearchUser = (username) => {
+    if (username > 1 && !props.search.isLoading) {
+      props.searchUsers(username);
+    }
+  }
+
   const handleGetUsers = () => {
     alert(`Getting ${usersBatchSize} users`);
   }
@@ -102,8 +109,8 @@ const ConsultantView = function (props) {
       </h1>
       <div>
         <h3>Pegue mensagens filtradas por:</h3>
-        <label>Username</label>
-        <input type='text' onChange={(e) => setUsernameFilter(e.target.value)} value={usernameFilter} />
+        <label>Busque um usuário</label>
+        <input type='text' onChange={(e) => {setUsernameFilter(e.target.value); handleSearchUser(e.target.value)}} value={usernameFilter} />
         <label>Data de início</label>
         <input type='text' placeholder="DD/MM/AAAA hh:mm:ss" value={beginDateFilter} onChange={e => setBeginDateFilter(e.target.value)}/>
         <label>Data final</label>
@@ -132,11 +139,14 @@ const ConsultantView = function (props) {
 }
 
 const mapStateToProps = state => ({
-  messages: state.consultantApp.filteredMessages
+  messages: state.consultantApp.filteredMessages,
+  search: state.consultantApp.search
 })
 
 const mapDispatchToProps = dispatch => ({
-  getFilteredMessages: (username, beginDate, endDate, order, skip, limit) => dispatch(getFilteredMessages(username, beginDate, endDate, order, skip, limit))
+  getFilteredMessages: (username, beginDate, endDate, order, skip, limit) => dispatch(getFilteredMessages(username, beginDate, endDate, order, skip, limit)),
+  searchUsers: (username) => dispatch(searchUser(username))
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConsultantView);
