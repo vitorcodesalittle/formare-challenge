@@ -21,7 +21,7 @@ const OnlineUsers = function (props) {
       <div className={containerCSSClasses.join(' ')}>
         { props.users.map((u, idx) => u && 
           <div key={idx} 
-            className='user-container'>
+            className='online-user-container'>
             <p>{u.username}</p>
             <div className="online-indicator"/>
           </div>
