@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Groups.css';
 
 const Group = props => (
-  <div className="group-container"
+  <div className={"group-container"}
     onClick={() => props.toggleOpen(props.idx)}>
-    <p>Grupo - {props.idx}</p>
+    <p>Grupo - {props.idx} com {props.users.length} usuários (clique para { props.isOpen ? "reduzir" : "expandir"})</p>
     {
-      props.isOpen &&
-      <div className='user-container'>
+      <div className={`user-container ${ props.isOpen ? "openDownAnimation" : "closeUpAnimation"}`}> {/** from OnlineUsers.css */}
         {props.users.map((u, idx) => (
           <div key={idx} className='user-item'>
             <p>{u.username}</p>

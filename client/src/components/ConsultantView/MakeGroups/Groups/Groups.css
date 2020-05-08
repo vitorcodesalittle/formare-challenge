@@ -7,7 +7,9 @@
 .user-container {
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  /* height: fit-content; */
+  overflow-y: auto;
+  max-height: fit-content;
 }
 
 .user-item {
