@@ -2,7 +2,6 @@ import querystring from 'querystring';
 import { getConsultantTokenFromCookie } from './Cookie';
 
 export const getUsers = async (userId, onlyOnline, username, limit=117) => {
-  console.log('Getting users: ', username);
   let query = {}
   if (userId) query.userId = userId;
   if (onlyOnline) query.onlyOnline = true;
@@ -36,7 +35,6 @@ export const getMessages = async (skip = 0, limit = 50, userId, beginDate, endDa
   if (beginDate) query.beginDate = beginDate.toString();
   if (endDate) query.endDate = endDate.toString();
   if (order) query.order = order;
-  console.log(query);
   return fetch('/messages?' + querystring.stringify(query), {
     method: 'GET',
     headers: {
@@ -48,7 +46,6 @@ export const getMessages = async (skip = 0, limit = 50, userId, beginDate, endDa
     return res;
   })
   .catch(err => {
-    console.log('Erro ao pegar mensagens: ', err);
     throw err;
   })
 }
@@ -67,7 +64,6 @@ export const sendMessage = async (content, authorId) => {
 
 
 export const signUpConsultant = async ( username, password ) => {
-  console.log('CADASTRANDO CONSULTANT')
   return fetch('/consultants', {
     method: "POST",
     body: JSON.stringify({
@@ -85,7 +81,6 @@ export const signUpConsultant = async ( username, password ) => {
 }
 
 export const loginConsultant = async (username, password) => {
-  console.log('LOGIN DO CONSULNTAT')
   return fetch('/consultants/login', {
     method: 'POST',
     body: JSON.stringify({
@@ -120,7 +115,6 @@ export const deleteMessage = async (messageId) => {
 }  
 
 export const getConsultant = async (consultantId) => {
-  console.log('PEGANDO CONSULTANT')
   return fetch('/consultants/' + consultantId, {
     method: 'GET',
     headers: {

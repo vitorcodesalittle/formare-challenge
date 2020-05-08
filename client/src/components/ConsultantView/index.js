@@ -21,7 +21,6 @@ const ConsultantView = function (props) {
   const [ groups, setGroups ] = useState(null);
 
   useEffect( () => {
-    console.log(props)
     return () => {}
   }, [props])
 
@@ -36,7 +35,6 @@ const ConsultantView = function (props) {
     if (selectedUser) {
       userId = selectedUser._id // GET USER ID BY SEARCHING
     }
-    console.log('ORDER: ', order);
     if (order === 'asc'){
       first = 'newer';
     } else {
@@ -46,9 +44,7 @@ const ConsultantView = function (props) {
   }
 
   const handleSearchUser = (username) => {
-    console.log('Searching username: ', username, props.search.isLoading)
     if (username.length > 1 && !props.search.isLoading) {
-      console.log('Searching actions!')
       props.searchUsers(username);
     }
   }
@@ -76,7 +72,6 @@ const ConsultantView = function (props) {
   const handleDivideInGroups = () => {
     const {users} = props;
     let randomPosUsers = shuffleArray(users);
-    console.log(users);
     if (!Array.isArray(users)) {
       console.log('Erro: props.users não é um array');
       return false;

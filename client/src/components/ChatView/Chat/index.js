@@ -47,13 +47,11 @@ const Chat = ({loadOldMessages, emitMessage, content, handleChangeContent, ...pr
   const scrollToBottom = () => {
     if (messagesEl) {
       // messagesEl.current.scrollIntoView({ behavior: 'smooth'});
-      console.log(messagesEl.current.scrollTop, messagesEl.current.scrollHeight, messagesEl.current.scrollHeight - messagesEl.current.scrollTop)
       messagesEl.current.scrollTop = messagesEl.current.scrollHeight + messagesEl.current.clientHeight + 523;
     }
   }
 
   const handleEmitMessage = () => {
-    // console.log('Emiting')
     emitMessage(content)
     .then(() => {
       scrollToBottom();

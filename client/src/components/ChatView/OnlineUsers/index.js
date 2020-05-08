@@ -15,7 +15,6 @@ const OnlineUsers = function (props) {
     openControl = <div onClick={() => setIsOpened(true)}><img src={crowdIcon} width={iconSize} height={iconSize} className='icon crowd'></img></div>
     containerCSSClasses.push('closeUpAnimation')  
   }
-  console.log(containerCSSClasses);
   return (
     <div className='OnlineUsers'>
       { openControl }

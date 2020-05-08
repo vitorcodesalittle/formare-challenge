@@ -24,7 +24,6 @@ export const getUser = (userId) =>
     dispatch({ type: actions.GET_USER_STARTED })
     API.getUsers(userId)
       .then(res => {
-        console.log(res);
         if (res.success && res.data.users.length > 0) {
           dispatch({ type: actions.GET_USER_SUCCESS, payload: res.data });
         } else if (res.success && res.data.users.length === 0) {
@@ -36,8 +35,7 @@ export const getUser = (userId) =>
         }
       })
       .catch(err => {
-        console.log(err);
-        dispatch({ type: actions.GET_USER_FAILED })
+        dispatch({ type: actions.GET_USER_FAILED, "Erro ao pegar usuário" })
         removeUserIdFromCookie();
       })
   }
@@ -51,7 +49,6 @@ export const getOldMessages = (skip, limit) =>
     dispatch({ type: actions.GET_MESSAGES_STARTED })
     return API.getMessages(skip, limit)
       .then(res => {
-        console.log(res);
         if (res.success) {
           dispatch({ type: actions.GET_MESSAGES_SUCCESS, payload: res.data })
           return true;
@@ -61,7 +58,6 @@ export const getOldMessages = (skip, limit) =>
         }
       })
       .catch(err => {
-        console.log('Erro inesperado: ', err);
         dispatch({ type: actions.GET_MESSAGES_FAILED, error: 'Erro no servidor' })
         return false;
       })
@@ -77,7 +73,6 @@ export const getOnlineUsers = () =>
     dispatch({ type: actions.GET_ONLINE_USERS_STARTED })
     API.getUsers(null, true)
       .then(response => {
-        console.log(response);
         if (response.success) {
           dispatch({ type: actions.GET_ONLINE_USERS_SUCCESS, payload: response.data })
         } else {
@@ -139,10 +134,8 @@ export const consultantLogout = () =>
 export const consultantLogin = (username, password) =>
   dispatch => {
     dispatch({ type: actions.LOGIN_CONSULTANT_STARTED })
-    console.log('FAZENDO LOGIN!');
     return API.loginConsultant(username, password)
       .then(res => {
-        console.log(res);
         if (res.success) {
           setConsultantIdInCookie(res.userId)
           setConsultantTokenInCookie(res.token);
@@ -156,7 +149,6 @@ export const consultantLogin = (username, password) =>
         }
       })
       .catch(err => {
-        console.log(err);
         dispatch({ type: actions.LOGIN_CONSULTANT_FAILED, error: 'Erro no servidor'})
         removeConsultantIdFromCookie();
         removeConsultantTokenFromCookie();
@@ -169,7 +161,6 @@ export const getFilteredMessages = (userId, beginDate, endDate, order, skip = 0,
     dispatch({ type: actions.GET_FILTERED_MESSAGES_STARTED });
     API.getMessages(skip, limit, userId, beginDate, endDate, order)
       .then(res => {
-        console.log(res);
         if (res.success) {
           dispatch({ type: actions.GET_FILTERED_MESSAGES_SUCCESS, payload: res.data })
         } else {
@@ -187,7 +178,6 @@ export const searchUser = (username) =>
     dispatch({ type: actions.SEARCH_USER_STARTED })
     API.getUsers(undefined, undefined, username)
       .then(res => {
-        console.log('response: ', res);
         if (res.success) {
           dispatch({ type: actions.SEARCH_USER_SUCCESS, payload: res.data })
         } else {

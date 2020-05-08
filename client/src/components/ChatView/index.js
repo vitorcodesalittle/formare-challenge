@@ -36,11 +36,9 @@ function ChatView(props) {
         props.pushMessageToEnd(data);
       });
       socket.on('new-user', data => {
-        console.log('NEW USER EVENT: ', data);
         props.pushUser(data);
       })
       socket.on('down-user', data => {
-        console.log('DOWN USER EVENT', data)
         props.removeUser(data);
       })
     }
@@ -66,7 +64,6 @@ function ChatView(props) {
   
   const emitMessage = async () => {
     if (!socket) {
-      console.log('Não há socket');
       return false;
     }
     let msg = {

@@ -29,7 +29,6 @@ const Login = function(props) {
   const consultantToken = getConsultantTokenFromCookie();
 
   useEffect(() => {
-    console.log(props);
     if (userId && !props.me.id && !props.me.isLoading) {
       setUserHasSession(true);
       props.getUser(userId);
@@ -45,7 +44,6 @@ const Login = function(props) {
     if (userHasSession || props.me.id) {
       props.history.push('/chat');
     } else {
-      console.log('Signing up new user');
       props.signUpUser(username)
     }
   }
@@ -57,7 +55,6 @@ const Login = function(props) {
   const handleConsultantLogin = (username, password) => {
     props.consultantLogin(username, password)
       .then(logged => {
-        console.log('Logged? ', logged);
         if (logged) {
           props.history.push('/consultant');
         }

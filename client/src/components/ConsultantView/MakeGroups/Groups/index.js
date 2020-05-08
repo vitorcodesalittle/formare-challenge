@@ -26,9 +26,7 @@ const Groups = function(props) {
     if (groups) {
       setGroupIsOpen(new Array(groups.length).fill(false, 0, groups.length));
     }
-    // console.log('Effect of groups');
-    // console.log(groups && groups.length, groups);
-    // console.log(groupIsOpen);
+    
     return () => {}
   }, [ groups ])
 
