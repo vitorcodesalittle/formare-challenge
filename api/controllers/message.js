@@ -6,8 +6,6 @@ exports.getMessagesAction = [
   async (req, res, next) => {
     let { limit, skip, userId, beginDate, endDate, order } = req.query;
     
-    console.log(req.query);
-
     let query = {}
     let createdAtQuery = {}
     if (userId) query.author = userId;
@@ -17,7 +15,6 @@ exports.getMessagesAction = [
     if (limit) limit = parseInt(limit)
     if (skip) skip = parseInt(skip)
     try {
-      console.log('Using params: ', query, skip, limit, order);
       let messages = await getMessages(query, skip, limit, order)
       for (let i = 0; i < messages.length; i++) {
         let users = await getUsers({ _id: messages[i].author }); 
@@ -26,7 +23,6 @@ exports.getMessagesAction = [
       
       res.status(200).json({ success: true, data: { messages } })
     } catch (err) {
-      console.log('Erro ao pegar mensagens: ', err);
       res.status(500).json({ success: false, message: 'Erro ao pegar mensagens.'})
     }
   }
@@ -48,7 +44,6 @@ exports.deleteMessageAction = [
     const messageId = req.params.message_id;
     deleteMessage(messageId)
       .then(result => {
-        console.log('Resultado to delete da mensagem: ', result);
         if (result.deletedCount === 1)
           res.status(200).json({ success: true })
         else {
@@ -56,7 +51,6 @@ exports.deleteMessageAction = [
         }
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({ success: false, message: "Não foi possível deletar a mensagem."})
       })
   }

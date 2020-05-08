@@ -46,7 +46,6 @@ exports.updateUserStatus = (id, online) => new Promise( async (resolve, reject) 
   user.online = online;
   UserModel.findOneAndUpdate({ _id: user._id }, user, { new: true})
     .then(( result ) => {
-      console.log('result from update', result);
       resolve(result);
     })
     .catch(err => {

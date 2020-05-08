@@ -8,7 +8,6 @@ exports.createUserAction = [
         return res.status(200).json({ success: true, data: { user } })
       })
       .catch(err => {
-        console.log('Erro ao inserir usuário', err);
         return res.status(500).json({ success: false, message: "Erro ao inserir usuário"})
       })
   }
@@ -30,13 +29,11 @@ exports.getUsersAction = [
     if (limit) {
       limit = parseInt(limit);
     }
-    console.log(query);
     getUsers(query, skip, limit)
       .then(users => {
         res.status(200).json({ success: true, data: { users } });
       })
       .catch(err => {
-        console.log('Erro ao pegar usuários: ', err);
         res.status(500).json({ success: false, message: "Erro ao pegar usuários."})
       })
   }

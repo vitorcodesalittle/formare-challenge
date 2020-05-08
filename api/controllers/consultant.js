@@ -15,7 +15,6 @@ exports.createConsultantAction = [
         res.status(200).json({ success: true, data: { consultant: result }})
       })
       .catch(err => {
-        console.log(err);
         res.status(500).json({ success: false, message: "Erro ao criar consultor."})
       })
   }
@@ -42,7 +41,6 @@ exports.loginAction = [
 
 exports.getConsultantAction = [
   (req, res, next) => {
-    console.log('PEGANDO USUARIO')
     const consultantId = req.params.consultant_id;
     getConsultant({ _id: consultantId })
       .then(consultant => {
@@ -52,7 +50,6 @@ exports.getConsultantAction = [
         res.status(200).json({ success: true, data: { consultant }})
       })
       .catch(err => {
-        console.log(err);
         return res.status(500).json({ success: false, message: "Erro no servidor" });
       })
   }
