@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
-import { getFilteredMessages, searchUser, getUsersBatch, resetMessages, deleteMessage } from '../../actions';
+import { getFilteredMessages, searchUser, getUsersBatch, resetMessages, deleteMessage, consultantLogout, getConsultant } from '../../actions';
 import Selector from '../UI/Selector';
 import FilterMessages from './FilterMessages';
 import MakeGroups from './MakeGroups';
+import { getConsultantIdFromCookie, getConsultantTokenFromCookie } from '../../Cookie';
+
+
+const ConsultantInfo = function(props) {
+  return (
+    <div style={{ backgroundColor: 'aquamarine', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 10, paddingLeft: 10 }}>
+      <p onClick={() => props.consultantLogout()}>Sair</p>      <p>Bem vindo, {props.consultant.username}</p>
+    </div>
+  )
+}
+
 const ConsultantView = function (props) {
 
   const [ actionPage, setActionPage ] = useState('get_messages');
@@ -20,9 +31,21 @@ const ConsultantView = function (props) {
 
   const [ groups, setGroups ] = useState(null);
 
+  const consultantId = getConsultantIdFromCookie();
+  const consultantToken = getConsultantTokenFromCookie();
+
   useEffect( () => {
+    let hasSession = consultantId && consultantToken;
+    if (!hasSession) {
+      props.consultantLogout();
+      props.history.push('/');
+    }
+    if (hasSession && !props.me.id && !props.authLoading) {
+      props.getConsultant(consultantId)
+    }
+    console.log(props);
     return () => {}
-  }, [props])
+  }, [props.me.id, consultantId])
 
   const handleGetFilteredMessages = () => {
     let beginDate, endDate, userId, first = 'newer';
@@ -105,6 +128,7 @@ const ConsultantView = function (props) {
 
   return (
     <div>
+      <ConsultantInfo consultant={{...props.me}} consultantLogout={props.consultantLogout}/>
       <Selector options={selectorOptions}/>
       {
         actionPage === 'get_messages' ?
@@ -139,6 +163,11 @@ const ConsultantView = function (props) {
 }
 
 const mapStateToProps = state => ({
+  me: {
+    id: state.consultantApp.id,
+    username: state.consultantApp.username
+  },
+  authLoading: state.consultantApp.authLoading,
   messages: state.consultantApp.filteredMessages,
   search: state.consultantApp.search,
   users: state.consultantApp.users,
@@ -150,7 +179,9 @@ const mapDispatchToProps = dispatch => ({
   searchUsers: (username) => dispatch(searchUser(username)),
   getUsersBatch: (size) => dispatch(getUsersBatch(size)),
   resetMessages: () => dispatch(resetMessages()),
-  deleteMessage: messageId => dispatch(deleteMessage(messageId))
+  deleteMessage: messageId => dispatch(deleteMessage(messageId)),
+  getConsultant: (id) => dispatch(getConsultant(id)),
+  consultantLogout: () => dispatch(consultantLogout())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConsultantView);

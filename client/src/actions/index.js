@@ -129,6 +129,8 @@ export const getConsultant = (consultantId) =>
 export const consultantLogout = () =>
   dispatch => {
     dispatch({ type: actions.CONSULTANT_LOGOUT })
+    removeConsultantIdFromCookie();
+    removeConsultantTokenFromCookie();
   }
 
 export const consultantLogin = (username, password) =>
