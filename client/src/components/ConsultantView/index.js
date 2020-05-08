@@ -3,6 +3,8 @@ import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
 import { getFilteredMessages, searchUser, getUsersBatch } from '../../actions';
 import Selector from '../UI/Selector';
+import FilterMessages from './FilterMessages';
+import MakeGroups from './MakeGroups';
 const ConsultantView = function (props) {
 
   const [ actionPage, setActionPage ] = useState('get_messages');
@@ -158,31 +160,23 @@ const ConsultantView = function (props) {
   return (
     <div>
       <Selector options={selectorOptions}/>
-      <div>
-        <h3>Pegue mensagens filtradas por:</h3>
-        <label>Busque um usuário</label>
-        <input type='text' onChange={(e) => {setUsernameFilter(e.target.value); handleSearchUser(e.target.value)}} value={usernameFilter} />
-        <label>Data de início</label>
-        <input type='text' placeholder="DD/MM/AAAA hh:mm:ss" value={beginDateFilter} onChange={e => setBeginDateFilter(e.target.value)}/>
-        <label>Data final</label>
-        <input type='text' placeholder="DD/MM/AAAA hh:mm:ss" value={endDateFilter} onChange={e => setEndDateFilter(e.target.value)}/>
-        <label>Ordem</label>
-        <select>
-          <option defaultValue={false} value={order==='asc'} onSelect={() => setOrder('asc')}>Da mais nova para mais antiga</option>
-          <option defaultValue={false} value={order === 'des'} onSelect={() => setOrder('des')}>Da mais antiga para mais nova</option>        
-        </select>
-        <button onClick={handleGetFilteredMessages}>Pegar mensagens filtradas</button>
-      </div>
-
-      { props.search && props.search.users && 
-        <>
-          <label>selecione um usuário para buscar mensagens apenas dele!</label>
-          {props.search.users.map( (user, idx) => (
-            <p key={idx} onClick={() => setSelectedUser(user)} style={{ color: (selectedUser && user._id === selectedUser._id) ? 'red' : 'black'}}>{user.username} - {user._id}</p>
-          ))}
-        </>
+      {
+        actionPage === 'get_messages' ?
+        <FilterMessages handleSearchUser={handleSearchUser}
+          usernameFilter={usernameFilter}
+          beginDateFilter={beginDateFilter}
+          endDateFilter={endDateFilter}
+          order={order}
+          handleGetFilteredMessages={handleGetFilteredMessages}
+          selectedUser={selectedUser}
+          handleChangeUsernameFilter={setUsernameFilter}
+          handleChangeBeginDateFilter={setBeginDateFilter}
+          handleChangeEndDateFilter={setEndDateFilter}
+          handleChangeOrder={setOrder}
+          handleChangeSelectedUser={setSelectedUser}
+          search={props.search}/> :
+        <MakeGroups/>
       }
-
       <div>
         <h3>Pegue usuários e separe-os em grupos!</h3>
         <label>Número de usuários:</label>

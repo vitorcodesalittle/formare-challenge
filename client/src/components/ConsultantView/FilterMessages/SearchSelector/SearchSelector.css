@@ -1,0 +1,13 @@
+.SearchSelector {
+  position: absolute;
+  width: 100%;
+  background-color: white;
+}
+
+.option {
+  border: 1px solid black;
+}
+
+.option:hover {
+  background-color: rgb(211, 209, 209);
+}

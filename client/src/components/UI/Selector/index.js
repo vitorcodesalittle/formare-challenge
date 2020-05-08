@@ -5,15 +5,14 @@ export default props => {
     <div className='selector'>
       {
         props.options.map((opt, idx, A) => {
-        return <>
+        return (
           <div className={`selector-option ${ opt.selected ?'selected' : ''}`}
             onClick={opt.onClick}
-            key={idx}
-            selected={opt.selected}>
+            selected={opt.selected}
+            key={idx}>
             <p>{opt.text}</p>
-          </div>
-          { ( idx !== A.length - 1 )&& <div className='verticalline'></div>}
-        </>
+          </div>  
+          )
         })
       }
     </div>
