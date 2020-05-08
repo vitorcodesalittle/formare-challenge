@@ -18,6 +18,8 @@ const ConsultantView = function (props) {
   const [ usersBatchSize , setUsersBatchSize ] = useState('117');
   const [ numberOfGroups, setNumberOfGroups ] = useState('4');
 
+  const [ groups, setGroups ] = useState(null);
+
   useEffect( () => {
     console.log(props)
     return () => {}
@@ -141,7 +143,7 @@ const ConsultantView = function (props) {
       groups[groupIdx].push(randomPosUsers[remainingUsers]);
       groupIdx = (groupIdx + 1) % parseInt(numberOfGroups);
     }
-    console.log('groups are: ', groups);
+    setGroups(groups);
   }
 
   let selectorOptions = [
@@ -181,7 +183,8 @@ const ConsultantView = function (props) {
           handleDivideInGroups={handleDivideInGroups}
           handleChangeUsersBatchSize={setUsersBatchSize}
           handleChangeNumberOfGroups={setNumberOfGroups}
-          users={props.users}/>
+          users={props.users}
+          groups={groups}/>
       } 
 
     </div>

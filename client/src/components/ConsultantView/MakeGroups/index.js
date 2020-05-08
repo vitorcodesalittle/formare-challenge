@@ -2,6 +2,7 @@ import React from 'react';
 import './MakeGroups.css'
 import Input from '../../UI/Input/';
 import Button from '../../UI/Button';
+import Groups from './Groups/';
 
 const MakeGroups = function({ usersBatchSize, numberOfGroups, handleGetUsers, handleDivideInGroups, ...props }) {
   return (
@@ -26,14 +27,16 @@ const MakeGroups = function({ usersBatchSize, numberOfGroups, handleGetUsers, ha
 
         </div>
         <Button onClick={handleGetUsers}>Pegar Usuários</Button>
-        <Button onClick={handleDivideInGroups}>Dividir Usuários</Button>
+        <Button onClick={handleDivideInGroups} disabled={!props.users || !props.users.length}>Dividir Usuários</Button>
+
+        <Groups groups={props.groups}/>
       </div>
 
-      <div>
+      {/* <div>
         { props.users &&
           props.users.map((u, idx) => <p key={idx}>{u.username}</p>)
         }
-      </div>
+      </div> */}
     </div>
   )
 }
