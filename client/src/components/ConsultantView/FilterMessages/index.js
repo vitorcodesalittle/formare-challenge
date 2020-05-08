@@ -29,7 +29,7 @@ const FilterMessages = function({handleGetFilteredMessages,
 
     <SearchSelector users={props.search.users}
       isLoading={props.search.isLoading}
-      onSelect={(user) => { props.handleChangeSelectedUser(); setSearchOpened(false); props.handleChangeUsernameFilter(user.username)}}
+      onSelect={(user) => { props.handleChangeSelectedUser(); setSearchOpened(false); props.handleChangeUsernameFilter(user.username); props.resetMessages()}}
       selectedUser={selectedUser}
       opened={searchOpened}/>
     }
@@ -38,15 +38,15 @@ const FilterMessages = function({handleGetFilteredMessages,
       <Input  type='text' 
         placeholder="DD/MM/AAAA hh:mm:ss" 
         value={beginDateFilter} 
-        onChange={e => props.handleChangeBeginDateFilter(e.target.value)}/>
+        onChange={e => {props.handleChangeBeginDateFilter(e.target.value); props.resetMessages()}}/>
       <Input 
         type='text'
         placeholder="DD/MM/AAAA hh:mm:ss"
         value={endDateFilter}
-        onChange={e => props.handleChangeEndDateFilter(e.target.value)}/>
+        onChange={e => {props.handleChangeEndDateFilter(e.target.value); props.resetMessages()}}/>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
-        <Checkbox value="mais nova para mais antiga" selected={order === 'asc'} onCheck={() => props.handleChangeOrder('asc')}/>
-        <Checkbox value="mais antiga para mais nova" selected={order === 'des'} onCheck={() => props.handleChangeOrder('des')}/>
+        <Checkbox value="mais nova para mais antiga" selected={order === 'asc'} onCheck={() => {props.handleChangeOrder('asc'); props.resetMessages(); }}/>
+        <Checkbox value="mais antiga para mais nova" selected={order === 'des'} onCheck={() => {props.handleChangeOrder('des'); props.resetMessages(); }}/>
       </div>
       <Button onClick={handleGetFilteredMessages}>Pegar mensagens filtradas</Button>
       {
