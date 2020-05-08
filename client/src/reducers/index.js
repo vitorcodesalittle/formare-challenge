@@ -283,7 +283,7 @@ const reducer = function(state = initialState, action) {
         ...state,
         consultantApp: {
           ...state.consultantApp,
-          filteredMessages: [ ...payload.messages, ...state.consultantApp.filteredMessages],
+          filteredMessages: [ ...state.consultantApp.filteredMessages, ...payload.messages ],
           messagesLoading: false
         }
       }

@@ -4,7 +4,7 @@ import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 import { formatDate } from '../../../dateHelpers';
 
-const Message = ({ authorName, content, createdAt, bg }) => {
+export const Message = ({ authorName, content, createdAt, bg }) => {
   let date, time
   if (createdAt) {
     let dateString = formatDate(createdAt);
@@ -13,7 +13,7 @@ const Message = ({ authorName, content, createdAt, bg }) => {
     time = parts[1];
   }
   return (
-    <div className='Message' style={{ backgroundColor: bg}}>
+    <div className='Message' style={ bg ? { backgroundColor: bg} : {}}>
       <p>{date} - {authorName} -{time}</p>
       <p>{content}</p>
     </div>

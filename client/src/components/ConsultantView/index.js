@@ -76,24 +76,22 @@ const ConsultantView = function (props) {
     let beginDate, endDate, userId, first = 'newer';
     if (beginDateFilter) {
       let beginDateObj = getDateParts(beginDateFilter);
-      console.log(beginDateObj)
       beginDate = getDateObject(beginDateObj.AAAA, beginDateObj.MM, beginDateObj.DD, beginDateObj.hh, beginDateObj.mm, beginDateObj.ss);
     }
     if (endDateFilter) {
       let endDateObj = getDateParts(endDateFilter);
-      console.log(endDateObj)
       endDate = getDateObject(endDateObj.AAAA, endDateObj.MM, endDateObj.DD, endDateObj.hh, endDateObj.mm, endDateObj.ss);
     }
     if (selectedUser) {
       userId = selectedUser._id // GET USER ID BY SEARCHING
     }
+    console.log('ORDER: ', order);
     if (order === 'asc'){
       first = 'newer';
     } else {
       first = 'older'
     }
-    console.log('Getting messages with params: ', beginDate, endDate, userId, first);
-    props.getFilteredMessages(userId, beginDate, endDate, first, 0);
+    props.getFilteredMessages(userId, beginDate, endDate, first, props.messages.length);
   }
 
   const handleSearchUser = (username) => {
@@ -176,7 +174,8 @@ const ConsultantView = function (props) {
           handleChangeEndDateFilter={setEndDateFilter}
           handleChangeOrder={setOrder}
           handleChangeSelectedUser={setSelectedUser}
-          search={props.search}/> :
+          search={props.search}
+          messages={props.messages}/> :
         <MakeGroups usersBatchSize={usersBatchSize}
           numberOfGroups={numberOfGroups}
           handleGetUsers={handleGetUsers}
