@@ -44,7 +44,6 @@ const ConsultantView = function (props) {
     if (parts.length > 1) {
       let time = parts[1];
       let timeParts = time.split(':');
-      console.log(timeParts);
       if (timeParts.length > 0) {
         dateObj.hh = timeParts[0]
       } else {
