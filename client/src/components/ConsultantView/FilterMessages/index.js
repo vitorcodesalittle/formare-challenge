@@ -22,7 +22,9 @@ const FilterMessages = function({handleGetFilteredMessages,
     <div>
       <h3>Pegue mensagens filtradas por:</h3>
       <Input type='text'
-        onChange={(e) => {props.handleChangeUsernameFilter(e.target.value); setSearchOpened(e.target.value !== ''); handleSearchUser(e.target.value)}}
+        onChange={(e) => {props.handleChangeUsernameFilter(e.target.value); setSearchOpened(e.target.value !== ''); handleSearchUser(e.target.value); 
+        if (e.target.value === '') props.handleChangeSelectedUser(null);
+      }}
         value={usernameFilter}
         placeholder={'De todos usuários'}/>
       
