@@ -30,7 +30,7 @@ const FilterMessages = function({handleGetFilteredMessages,
 
     <SearchSelector users={props.search.users}
       isLoading={props.search.isLoading}
-      onSelect={(user) => { props.handleChangeSelectedUser(); setSearchOpened(false); props.handleChangeUsernameFilter(user.username); props.resetMessages()}}
+      onSelect={(user) => { props.handleChangeSelectedUser(user); setSearchOpened(false); props.handleChangeUsernameFilter(user.username); props.resetMessages()}}
       selectedUser={selectedUser}
       opened={searchOpened}/>
     }

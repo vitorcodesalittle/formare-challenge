@@ -55,7 +55,9 @@ const ConsultantView = function (props) {
     if (endDateFilter) {
       endDate = endDateFilter;
     }
+    console.log('selectedUser: ', selectedUser);
     if (selectedUser) {
+      console.log(selectedUser._id);
       userId = selectedUser._id // GET USER ID BY SEARCHING
     }
     if (order === 'asc'){
