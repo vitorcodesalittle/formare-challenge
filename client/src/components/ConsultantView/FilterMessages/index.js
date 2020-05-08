@@ -35,9 +35,13 @@ const FilterMessages = function({handleGetFilteredMessages,
       opened={searchOpened}/>
     }
       <p>A partir de </p>
-      <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeBeginDateFilter(date)}} value={beginDateFilter}/>
+      <div className='dtpicker'>
+        <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeBeginDateFilter(date)}} value={beginDateFilter}/>
+      </div>
       <p>Até</p>
-      <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeEndDateFilter(date)}} value={endDateFilter}/>
+      <div className='dtpicker'>
+        <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeEndDateFilter(date)}} value={endDateFilter}/>
+      </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
         <Checkbox value="mais nova para mais antiga" selected={order === 'asc'} onCheck={() => {props.handleChangeOrder('asc'); props.resetMessages(); }}/>
