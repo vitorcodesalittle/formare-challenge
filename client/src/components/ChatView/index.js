@@ -74,6 +74,9 @@ function ChatView(props) {
     if (!socket) {
       return false;
     }
+    if (content.trim() === '') {
+      return false;
+    }
     let msg = {
       content,
       author: props.me.id,

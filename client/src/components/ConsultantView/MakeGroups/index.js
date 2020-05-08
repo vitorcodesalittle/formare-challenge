@@ -1,6 +1,6 @@
 import React from 'react';
 import './MakeGroups.css'
-import Input from '../../UI/Input/';
+import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 import Groups from './Groups/';
 
