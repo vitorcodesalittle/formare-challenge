@@ -11,3 +11,33 @@
   padding: 15px;
   border-radius: 5px;
 }
+
+
+.showLeftAnimation {
+	right: 10px;
+  animation: showLeft 1s ;
+}
+
+.closeRightAnimation {
+  right: -50px;
+	animation: closeRight 0.5s ;
+}
+
+
+@keyframes showLeft {
+	0% {
+		right: -50px
+	}
+	100% {
+		right: 10px
+	}
+}
+
+@keyframes closeRight {
+	0% {
+		right: 10px;
+	}
+	100% {
+		right: -50px
+	}
+}

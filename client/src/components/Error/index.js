@@ -23,11 +23,13 @@ const Error = function(props) {
     } 
   }, [ props ])
 
-  return ( visible ?
-    <div className="Error">
+  let classes = [ "Error" ];
+  if (visible) classes.push('showLeftAnimation');
+  else classes.push('closeRightAnimation')
+
+  return (<div className={classes.join(' ')}>
       <p>{error}</p>
-    </div> 
-   : null )
+    </div>)
 }
 
 
