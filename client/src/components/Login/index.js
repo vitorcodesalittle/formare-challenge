@@ -37,6 +37,9 @@ const Login = function(props) {
       setConsultantHasSession(true);
       props.getConsultant(consultantId);
     }
+    if (!userId) {
+      setUserHasSession(false)
+    }
     return () => {}
   }, [ props.me.isLoading, userId, consultantId, props.consultantMe.authLoading, consultantToken ])
 
