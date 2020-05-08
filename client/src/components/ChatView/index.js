@@ -44,7 +44,7 @@ function ChatView(props) {
       })
       socket.on('down-user', data => {
         console.log('Socket event down-user', data);
-        props.removeUser(data); 
+        props.removeUser(data);
       })
     }
     if (props.me.id) {
@@ -52,7 +52,10 @@ function ChatView(props) {
     }
     return () => {
       if (socket) {
-        socket.removeAllListeners(); 
+        socket.removeAllListeners();
+        props.removeUser({ _id: props.me._id})
+        socket.disconnect();
+        socket = undefined;
       }
     }
   }, [ props.me ])
