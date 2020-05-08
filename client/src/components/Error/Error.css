@@ -15,18 +15,18 @@
 
 .showLeftAnimation {
 	right: 10px;
-  animation: showLeft 1s ;
+  animation: showLeft 0.3s ;
 }
 
 .closeRightAnimation {
-  right: -50px;
-	animation: closeRight 0.5s ;
+  right: -100px;
+	animation: closeRight 0.3s ;
 }
 
 
 @keyframes showLeft {
 	0% {
-		right: -50px
+		right: -100px
 	}
 	100% {
 		right: 10px
@@ -38,6 +38,6 @@
 		right: 10px;
 	}
 	100% {
-		right: -50px
+		right: -100px
 	}
 }
