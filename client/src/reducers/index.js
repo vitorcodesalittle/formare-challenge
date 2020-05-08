@@ -33,7 +33,8 @@ import {
   SEARCH_USER_FAILED,
   GET_USERS_BATCH_STARTED,
   GET_USERS_BATCH_SUCCESS,
-  GET_USERS_BATCH_FAILED
+  GET_USERS_BATCH_FAILED,
+  RESET_MESSAGES
  } from "../actions/types";
 import { statement } from "@babel/template";
 
@@ -353,6 +354,14 @@ const reducer = function(state = initialState, action) {
         consultantApp: {
           ...state.consultantApp,
           usersLoading: false
+        }
+      }
+    case RESET_MESSAGES:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          filteredMessages: []
         }
       }
     default:

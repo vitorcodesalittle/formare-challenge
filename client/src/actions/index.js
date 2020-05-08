@@ -215,3 +215,7 @@ export const getUsersBatch = (size) =>
         dispatch({ type: actions.GET_USERS_BATCH_FAILED, error: 'Erro no servidor.'})
       })
   }
+export const resetMessages = () =>
+  dispatch => {
+    dispatch({ type: actions.RESET_MESSAGES })
+  }
