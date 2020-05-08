@@ -35,7 +35,7 @@ export const getUser = (userId) =>
         }
       })
       .catch(err => {
-        dispatch({ type: actions.GET_USER_FAILED, "Erro ao pegar usuário" })
+        dispatch({ type: actions.GET_USER_FAILED, error: "Erro ao pegar usuário" })
         removeUserIdFromCookie();
       })
   }

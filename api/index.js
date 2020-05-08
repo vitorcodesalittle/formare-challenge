@@ -50,7 +50,8 @@ io.on('connection', async socket => {
         socket.broadcast.emit('message', {
           content: message.content,
           author: message.author,
-          authorName: user.username
+          authorName: user.username,
+          createdAt: message.createdAt
         });
       })
       .catch(err => {
