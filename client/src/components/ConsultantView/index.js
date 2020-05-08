@@ -67,7 +67,7 @@ const ConsultantView = function (props) {
   }
 
   const handleSearchUser = (username) => {
-    if (username.length > 1 && !props.search.isLoading) {
+    if (username.length > 1 && props.search && !props.search.isLoading) {
       props.searchUsers(username);
     }
   }

@@ -248,7 +248,11 @@ const reducer = function(state = initialState, action) {
     case CONSULTANT_LOGOUT:
       return {
         ...state,
-        consultantApp: {}
+        consultantApp: {
+          ...state.consultantApp,
+          id: null,
+          username: null
+        }
       }
     case LOGIN_CONSULTANT_STARTED:
       return {
