@@ -38,7 +38,9 @@ function ChatView(props) {
       });
       socket.on('new-user', data => {
         console.log('Socket event new-user', data);
-        props.pushUser(data);
+        let existingUserIdx = props.users.findIndex(u => u._id === data._id)
+        if (existingUserIdx === -1)
+          props.pushUser(data);
       })
       socket.on('down-user', data => {
         console.log('Socket event down-user', data);
