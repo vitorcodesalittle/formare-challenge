@@ -17,7 +17,8 @@ export const setUserIdInCookie = (userId) => {
 } 
 
 export const removeUserIdFromCookie = () => {
-  Cookie.remove(userKey);
+  Cookie.set(userKey, '')
+  Cookie.remove(userKey, { path: '', domain: "localhost"});
   return true;
 }
 
@@ -34,7 +35,7 @@ export const setConsultantIdInCookie = (consultantId) => {
 }
 
 export const removeConsultantIdFromCookie = () => {
-  Cookie.remove(consultantKey);
+  Cookie.remove(consultantKey, { path: ''});
 }
 
 export const getConsultantTokenFromCookie = () => {
@@ -50,5 +51,5 @@ export const setConsultantTokenInCookie = (token) => {
 }
 
 export const removeConsultantTokenFromCookie = () => {
-  Cookie.remove(consultantTokenKey);
+  Cookie.remove(consultantTokenKey, { path: '' });
 }

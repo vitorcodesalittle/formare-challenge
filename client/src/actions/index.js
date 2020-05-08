@@ -42,6 +42,7 @@ export const getUser = (userId) =>
 export const userLogout = () => 
   dispatch => {
     dispatch({ type: actions.USER_LOGOUT })
+    removeUserIdFromCookie();
   }
 
 export const getOldMessages = (skip, limit) => 

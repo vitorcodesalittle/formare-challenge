@@ -110,7 +110,8 @@ const reducer = function(state = initialState, action) {
     case USER_LOGOUT:
       return {
         ...state,
-        me: {}
+        me: {},
+        users: []
       }
     case GET_USER_STARTED:
       return {
