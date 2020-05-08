@@ -34,7 +34,10 @@ import {
   GET_USERS_BATCH_STARTED,
   GET_USERS_BATCH_SUCCESS,
   GET_USERS_BATCH_FAILED,
-  RESET_MESSAGES
+  RESET_MESSAGES,
+  DELETE_MESSAGE_STARTED,
+  DELETE_MESSAGE_SUCCESS,
+  DELETE_MESSAGE_FAILED
  } from "../actions/types";
 import { statement } from "@babel/template";
 
@@ -363,6 +366,23 @@ const reducer = function(state = initialState, action) {
           ...state.consultantApp,
           filteredMessages: []
         }
+      }
+    case DELETE_MESSAGE_STARTED:
+      return {
+        ...state
+      }
+    case DELETE_MESSAGE_SUCCESS:
+      return {
+        ...state,
+        consultantApp: {
+          ...state.consultantApp,
+          filteredMessages: state.consultantApp.filteredMessages.map(msg => msg._id === payload.message._id ? { ...msg, deleted: true } : msg)
+        }
+      }
+    case DELETE_MESSAGE_FAILED:
+      return {
+        ...state,
+        error
       }
     default:
       return state

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDateObject, formatDate } from '../../dateHelpers';
 import { connect } from 'react-redux'
-import { getFilteredMessages, searchUser, getUsersBatch, resetMessages } from '../../actions';
+import { getFilteredMessages, searchUser, getUsersBatch, resetMessages, deleteMessage } from '../../actions';
 import Selector from '../UI/Selector';
 import FilterMessages from './FilterMessages';
 import MakeGroups from './MakeGroups';
@@ -127,7 +127,8 @@ const ConsultantView = function (props) {
           handleChangeSelectedUser={setSelectedUser}
           search={props.search}
           messages={props.messages}
-          resetMessages={props.resetMessages}/> :
+          resetMessages={props.resetMessages}
+          deleteMessage={props.deleteMessage}/> :
         <MakeGroups usersBatchSize={usersBatchSize}
           numberOfGroups={numberOfGroups}
           handleGetUsers={handleGetUsers}
@@ -153,7 +154,8 @@ const mapDispatchToProps = dispatch => ({
   getFilteredMessages: (username, beginDate, endDate, order, skip, limit) => dispatch(getFilteredMessages(username, beginDate, endDate, order, skip, limit)),
   searchUsers: (username) => dispatch(searchUser(username)),
   getUsersBatch: (size) => dispatch(getUsersBatch(size)),
-  resetMessages: () => dispatch(resetMessages())
+  resetMessages: () => dispatch(resetMessages()),
+  deleteMessage: messageId => dispatch(deleteMessage(messageId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConsultantView);

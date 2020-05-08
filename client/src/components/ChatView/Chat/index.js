@@ -1,10 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './Chat.css'
 import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 import { formatDate } from '../../../dateHelpers';
 
-export const Message = ({ authorName, content, createdAt, bg }) => {
+export const Message = ({ authorName, content, createdAt, bg, onDelete, _id, deleted }) => {
+  const [ isDeleting, setIsDeleting ] = useState(false);
+  const handleDelete = () => {
+    setIsDeleting(true);
+    onDelete(_id)
+  }
   let date, time
   if (createdAt) {
     let dateString = formatDate(createdAt);
@@ -12,10 +17,21 @@ export const Message = ({ authorName, content, createdAt, bg }) => {
     date = parts[0]
     time = parts[1];
   }
+  let msg = (
+    <>
+      <p>{date} - {authorName} -{time}</p>
+      {onDelete && _id && <p style={{ marginLeft: 'auto', marginRight: 15, color: 'red'}} onClick={() => handleDelete()}>{ isDeleting ? "Deletando..." : "Deletar"}</p>}
+      <p>{content}</p>
+    </>
+  )
+  if (deleted) {
+    msg = (
+      <p>Deleted</p>
+    )
+  }
   return (
     <div className='Message' style={ bg ? { backgroundColor: bg} : {}}>
-      <p>{date} - {authorName} -{time}</p>
-      <p>{content}</p>
+      {msg}
     </div>
   )
 }

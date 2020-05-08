@@ -46,7 +46,7 @@ const FilterMessages = function({handleGetFilteredMessages,
       <Button onClick={handleGetFilteredMessages}>Pegar mensagens filtradas</Button>
       {
         props.messages &&
-        props.messages.map((msg, idx) => <Message {...msg} key={idx}/>)
+        props.messages.map((msg, idx) => <Message {...msg} key={idx} onDelete={props.deleteMessage}/>)
       }
     </div>
   )

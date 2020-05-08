@@ -2,7 +2,7 @@ import React from 'react';
 import './Button.css'
 export default props => {
   return (
-    <a tabIndex='0' href='#' style={{ textDecoration:'none', cursor: 'default'}}
+    <a tabIndex='0' href='#' style={{ textDecoration:'none', cursor: 'default', width: 'fit-content'}}
     onClick={() => props.disabled ? null : props.onClick()}>
       <div className={`Button ${props.disabled ? 'disabled' : ''}`}>
           {props.children}

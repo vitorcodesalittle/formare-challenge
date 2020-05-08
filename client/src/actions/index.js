@@ -219,3 +219,19 @@ export const resetMessages = () =>
   dispatch => {
     dispatch({ type: actions.RESET_MESSAGES })
   }
+
+export const deleteMessage = messageId =>
+  dispatch => {
+    dispatch({ type: actions.DELETE_MESSAGE_STARTED });
+    API.deleteMessage(messageId)
+      .then(res => {
+        if (res.success) {
+          dispatch({ type: actions.DELETE_MESSAGE_SUCCESS, payload: { message: { _id: messageId }} })
+        } else {
+          dispatch({ type: actions.DELETE_MESSAGE_FAILED, error: res.message })
+        }
+      })
+      .catch(err => {
+        dispatch({ type: actions.DELETE_MESSAGE_FAILED, error: 'Erro no servidor'})
+      })
+  }
