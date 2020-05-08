@@ -29,7 +29,7 @@ export const getUser = (userId) =>
         } else if (res.success && res.data.users.length === 0) {
           dispatch({ type: actions.GET_USER_SUCCESS, error: 'Nenhum usuário com id ' + userId });
           removeUserIdFromCookie();
-        } else {;
+        } else {
           dispatch({ type: actions.GET_USER_SUCCESS, error: res.message });
           removeUserIdFromCookie();
         }
