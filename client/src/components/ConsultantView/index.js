@@ -11,8 +11,8 @@ const ConsultantView = function (props) {
 
   const [ usernameFilter, setUsernameFilter ] = useState('');
   const [ selectedUser, setSelectedUser ] = useState(null);
-  const [ beginDateFilter, setBeginDateFilter ] = useState('20/10/1998 20:30:30');
-  const [ endDateFilter, setEndDateFilter ] = useState('20/10/2020 11:30:30');
+  const [ beginDateFilter, setBeginDateFilter ] = useState(new Date(new Date().setHours(new Date().getHours() - 1)));
+  const [ endDateFilter, setEndDateFilter ] = useState(new Date());
   const [ order, setOrder ] = useState('asc') // asc : mais nova pra mais antiga --- des : mais antiga pra mais nova'
 
   const [ usersBatchSize , setUsersBatchSize ] = useState('117');
@@ -25,61 +25,13 @@ const ConsultantView = function (props) {
     return () => {}
   }, [props])
 
-  const getDateParts = (dateString) => {
-    let dateObj = {}
-    let parts = dateString.split(' ');
-    console.log(parts);
-    if (parts.length > 0) {
-      let date = parts[0];
-      let dateParts = date.split('/');
-      if (dateParts < 3) {
-        console.log(dateString + ' é inválida')
-        return false;
-      }
-      dateObj.AAAA = dateParts[2];
-      dateObj.MM = dateParts[1];
-      dateObj.DD = dateParts[0]
-    }
-
-    if (parts.length > 1) {
-      let time = parts[1];
-      let timeParts = time.split(':');
-      if (timeParts.length > 0) {
-        dateObj.hh = timeParts[0]
-      } else {
-        dateObj.hh = '0';
-      }
-      if (timeParts.length > 1) {
-        dateObj.mm = timeParts[1];
-      } else {
-        dateObj.mm = '0'
-      }
-      if (timeParts.length > 2) {
-        dateObj.ss = timeParts[2];
-      } else {
-        dateObj.ss = '0';
-      }
-    } else {
-      dateObj = { ...dateObj, hh: '0', mm: '0', ss: '0'}
-    }
-
-    let newDateObj = {}
-    Object.keys(dateObj).map(key => {
-      newDateObj[key] = parseInt(dateObj[key])
-    })
-
-    return newDateObj;
-  }
-
   const handleGetFilteredMessages = () => {
     let beginDate, endDate, userId, first = 'newer';
     if (beginDateFilter) {
-      let beginDateObj = getDateParts(beginDateFilter);
-      beginDate = getDateObject(beginDateObj.AAAA, beginDateObj.MM, beginDateObj.DD, beginDateObj.hh, beginDateObj.mm, beginDateObj.ss);
+      beginDate = beginDateFilter
     }
     if (endDateFilter) {
-      let endDateObj = getDateParts(endDateFilter);
-      endDate = getDateObject(endDateObj.AAAA, endDateObj.MM, endDateObj.DD, endDateObj.hh, endDateObj.mm, endDateObj.ss);
+      endDate = endDateFilter;
     }
     if (selectedUser) {
       userId = selectedUser._id // GET USER ID BY SEARCHING

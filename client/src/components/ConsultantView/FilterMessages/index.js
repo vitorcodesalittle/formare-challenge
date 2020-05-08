@@ -5,6 +5,7 @@ import Button from '../../UI/Button';
 import Checkbox from '../../UI/Checkbox';
 import SearchSelector from './SearchSelector';
 import { Message } from '../../ChatView/Chat'
+import DateTimePicker from 'react-datetime-picker';
 
 const FilterMessages = function({handleGetFilteredMessages,
   handleSearchUser,
@@ -33,17 +34,11 @@ const FilterMessages = function({handleGetFilteredMessages,
       selectedUser={selectedUser}
       opened={searchOpened}/>
     }
+      <p>A partir de </p>
+      <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeBeginDateFilter(date)}} value={beginDateFilter}/>
+      <p>Até</p>
+      <DateTimePicker maxDetail="second" onChange={date => {props.resetMessages(); props.handleChangeEndDateFilter(date)}} value={endDateFilter}/>
 
-        
-      <Input  type='text' 
-        placeholder="DD/MM/AAAA hh:mm:ss" 
-        value={beginDateFilter} 
-        onChange={e => {props.handleChangeBeginDateFilter(e.target.value); props.resetMessages()}}/>
-      <Input 
-        type='text'
-        placeholder="DD/MM/AAAA hh:mm:ss"
-        value={endDateFilter}
-        onChange={e => {props.handleChangeEndDateFilter(e.target.value); props.resetMessages()}}/>
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
         <Checkbox value="mais nova para mais antiga" selected={order === 'asc'} onCheck={() => {props.handleChangeOrder('asc'); props.resetMessages(); }}/>
         <Checkbox value="mais antiga para mais nova" selected={order === 'des'} onCheck={() => {props.handleChangeOrder('des'); props.resetMessages(); }}/>
