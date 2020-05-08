@@ -55,7 +55,7 @@ io.on('connection', async socket => {
         });
       })
       .catch(err => {
-        console.log(err);
+        console.log('Erro ao inserir mensagem');
       })
   })
 

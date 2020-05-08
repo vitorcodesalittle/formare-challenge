@@ -33,12 +33,15 @@ function ChatView(props) {
     }
     if (socket) {
       socket.on('message', data => {
+        console.log('Socket event message', data);
         props.pushMessageToEnd(data);
       });
       socket.on('new-user', data => {
+        console.log('Socket event new-user', data);
         props.pushUser(data);
       })
       socket.on('down-user', data => {
+        console.log('Socket event down-user', data);
         props.removeUser(data);
       })
     }
