@@ -175,24 +175,14 @@ const ConsultantView = function (props) {
           handleChangeOrder={setOrder}
           handleChangeSelectedUser={setSelectedUser}
           search={props.search}/> :
-        <MakeGroups/>
-      }
-      <div>
-        <h3>Pegue usuários e separe-os em grupos!</h3>
-        <label>Número de usuários:</label>
-        <input type="number" value={usersBatchSize} onChange={e => setUsersBatchSize(e.target.value)} />
-        <label>Número de grupos a dividir</label>
-        <input type="number" value={numberOfGroups} onChange={e => setNumberOfGroups(e.target.value)} />
-        <button onClick={handleGetUsers}>Pegar Usuários</button>
-        <button onClick={handleDivideInGroups}>Dividir Usuários</button>
-      </div>
-
-      <div>
-        {props.users &&
-          props.users.map((u, idx) => <p key={idx}>{u.username}</p>)
-        }
-      </div>
-
+        <MakeGroups usersBatchSize={usersBatchSize}
+          numberOfGroups={numberOfGroups}
+          handleGetUsers={handleGetUsers}
+          handleDivideInGroups={handleDivideInGroups}
+          handleChangeUsersBatchSize={setUsersBatchSize}
+          handleChangeNumberOfGroups={setNumberOfGroups}
+          users={props.users}/>
+      } 
 
     </div>
   )
