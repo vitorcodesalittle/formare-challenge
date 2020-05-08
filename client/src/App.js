@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ChatView from './components/ChatView';
 import Login from './components/Login';
 import ConsultantView from './components/ConsultantView';
+import Error from './components/Error';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/consultant' component={ConsultantView}/>
         </Switch>
       </Router> 
+      <Error/>
     </div>
   )
 }

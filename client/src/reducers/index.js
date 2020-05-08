@@ -37,7 +37,8 @@ import {
   RESET_MESSAGES,
   DELETE_MESSAGE_STARTED,
   DELETE_MESSAGE_SUCCESS,
-  DELETE_MESSAGE_FAILED
+  DELETE_MESSAGE_FAILED,
+  SET_ERROR
  } from "../actions/types";
 import { statement } from "@babel/template";
 
@@ -380,6 +381,11 @@ const reducer = function(state = initialState, action) {
         }
       }
     case DELETE_MESSAGE_FAILED:
+      return {
+        ...state,
+        error
+      }
+    case SET_ERROR:
       return {
         ...state,
         error

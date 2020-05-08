@@ -227,3 +227,8 @@ export const deleteMessage = messageId =>
         dispatch({ type: actions.DELETE_MESSAGE_FAILED, error: 'Erro no servidor'})
       })
   }
+
+export const setError = (error) =>
+  dispatch => {
+    dispatch({ type: actions.SET_ERROR, error })
+  }
